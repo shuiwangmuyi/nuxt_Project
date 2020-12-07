@@ -1,0 +1,114 @@
+<template>
+  <div class="find">    
+    <!-- 轮播图 -->
+    <el-carousel :interval="2000" arrow="always" type="card">
+      <el-carousel-item v-for="(item,key) in imageList" :key="key">
+         <el-image :src="item.imgpath" alt=""></el-image>
+      </el-carousel-item>
+    </el-carousel> 
+    <div class="discover-module">
+      <el-tabs v-model="activeName" @tab-click="handleClick">
+              <el-tab-pane v-for="(musicList,index) in musicTypeList"
+                :key="index" 
+                :label="musicList.TypeName"
+                :name="musicList.TypeName">
+               <SingList  
+                  :GetTypeName="musicList.TypeName">
+                </SingList>     
+              
+              </el-tab-pane>
+      </el-tabs>
+        <!-- <el-menu  mode="horizontal" router>
+          <el-menu-item v-for="musicList in musicTypeList" 
+          :key="musicList.TypeId"
+          :index="musicList.TypePath">        
+            <span slot="title">{{musicList.TypeName}}</span>
+          </el-menu-item> 
+        </el-menu> -->
+    </div>
+      
+  </div>
+</template>
+
+<script>
+import singList from "./index/singList";
+export default {
+  name: "find",
+  components: {SingList:singList},
+  data(){
+    return{
+      activeName:'',
+      imageList:[
+        {
+          imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165507892712.jpg')
+        }
+        , {
+          imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508043727.jpg')
+        }
+        , {
+            imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508067721.jpg')
+        }
+        , {
+           imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508101631.jpg')
+        }
+        , {
+            imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508108226.jpg')
+        }
+        , {
+            imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508109914.jpg')
+        }
+      ],
+      musicTypeList:[{
+
+      }]     
+    }
+  },
+  mounted(){   
+    this.getMusicType();    
+  },
+  methods:{        
+     getMusicType(){
+       this.$axios({
+        method: 'post',
+        url:'https://localhost:5001/MusicType/GetMusicTypeData',
+        dataType: "json"
+        }).then(res => {          
+          console.log(res.data)         
+         if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
+             this.musicTypeList=  res.data[0].data  
+             this.activeName=res.data[0].data[0].TypeName        
+         }
+              
+        })    
+      },
+    handleClick(tab, event) {
+      }
+  }
+};
+</script>
+
+<style>
+.el-menu {
+  color: #fff;
+}
+.el-carousel__item .el-image,.el-carousel__item .el-image img{
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  /* line-height: 200px; */
+  margin: 0;
+  /* height: 420px; */
+}
+
+.el-carousel__item:nth-child(2n) {    
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {  
+  background-color: #d3dce6;
+}
+.el-carousel__container {
+    position: relative;
+    height: 210px;
+}
+</style>
