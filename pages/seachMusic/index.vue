@@ -3,6 +3,7 @@
     <div class="seach_header">
         <el-input placeholder="请输入内容" v-model="searchT" 
           class="seachInput">
+<<<<<<< HEAD
           <el-button slot="append" @click="seachBtnClick"  icon="el-icon-search"></el-button>
        </el-input>
     </div>
@@ -11,6 +12,13 @@
         v-html="searchInfo">
         <!-- {{searchT}} -->
         </div>
+=======
+          <el-button slot="append" icon="el-icon-search"></el-button>
+       </el-input>
+    </div>
+    <div id="mySeach">
+        <div class="mysecah-top" v-html="searchInfo">{{searchT}}</div>
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
         <div class="m-tabs-srch">
           <el-tabs v-model="activeName" type="border-card" 
                     @tab-click="handleClick">
@@ -57,6 +65,7 @@
                            <el-button icon="el-icon-delete" circle></el-button>
                         </div>
                 </div>
+<<<<<<< HEAD
               <div v-else>                
                   <!-- <el-collapse accordion>  -->
                     <el-collapse v-model="activeNames" 
@@ -86,6 +95,10 @@
                   </el-collapse>
               </div>
             </el-tab-pane>
+=======
+              <div v-else>s</div>
+              </el-tab-pane>
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
           </el-tabs>
         </div>
     </div>
@@ -99,17 +112,22 @@ export default {
      return {searchT:Seachvalue}    
     },
     data(){
+<<<<<<< HEAD
       return{ 
         searchT:'',
         Words:'',
         show:true,  
         activeNames: ['1'] ,  
+=======
+      return{
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
         activeName:'first',
         tabs:[
           {name:'first',lable:'单曲'},
           {name:'second',lable:'歌手'},
           {name:'third',lable:'歌词'}         
           ],
+<<<<<<< HEAD
           seach_word:'',
         musicTable:[],     
         searchCout:0,
@@ -189,6 +207,36 @@ export default {
           // console.log(event.target.nodeName==="BUTTON")
       },
     
+=======
+        musicTable:[],
+        searchT:'',
+        searchCout:0,
+        searchInfo:''//'搜索"<span style="color:red">遗失</span>"，找到 <span style="color:red">700</span> 首单曲'
+      }
+    },
+    watch:{
+      searchT:(val=>{
+        console.log(this.searchT)
+        searchInfo= `
+           搜索"<span style="color:red">${searchT}</span>"，
+           找到 <span style="color:red">${searchCout}</span> 首单曲`
+        }),
+      searchCout:(val=>{
+         searchInfo= `
+           搜索"<span style="color:red">${searchT}</span>"，
+           找到 <span style="color:red">${searchCout}</span> 首单曲`
+      })
+    },
+    filters:{
+      filterM_Author(value){
+        return value.slice(0,5)
+      }
+    },
+    mounted(){
+       this.getSeachValue()
+    },
+   methods:{
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
       getSeachValue(){
          this.$axios({
           method: 'post',
@@ -197,12 +245,19 @@ export default {
           dataType: "json"
         })
         .then(res=>{
+<<<<<<< HEAD
            // console.log(res.data)
             if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
                  this.musicTable = res.data[0].data
                  this.searchInfo=`搜索
                           "<span style="color:red">${this.searchT}</span>"，
                                 找到 <span style="color:red">${res.data[0].Total}</span> 首单曲'`
+=======
+            console.log(res.data)
+            if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
+                 this.musicTable = res.data[0].data
+
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
             }else{
               this.$message({
                 message: '查询数据失败',
@@ -219,6 +274,7 @@ export default {
         })  
        } ,
       handleClick(tab, event){
+<<<<<<< HEAD
         
       },
       handleChangess(val){
@@ -244,6 +300,21 @@ export default {
     border: none;
      background: white;               
   }
+=======
+         console.log(this.activeName)
+      },
+    AddMusic(){
+
+    },
+    PlayMusic(){
+      
+    }
+   }
+}
+</script>
+
+<style>
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
  .seach_header{
    padding-top: 15px;
  }
@@ -294,7 +365,14 @@ export default {
   .img-info{
     width: 100px;
     margin-top:10px
+<<<<<<< HEAD
   }  
+=======
+  }
+  .img-info .demonstration{
+     /* color: red; */
+  }
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
   .img-info button{
     color: red;
     float: right;
@@ -302,6 +380,7 @@ export default {
     top: -7px;
     border: none;
   }
+<<<<<<< HEAD
   .seach_word{
     height: 60px;
   }
@@ -334,4 +413,6 @@ export default {
     top: -52px;
     width: 60px;
   }
+=======
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
 </style>
