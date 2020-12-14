@@ -42,7 +42,8 @@ export default {
   data(){
     return{
       activeIndex:'find',
-      imgpath:require('D:/Nuxt/nuxt_project/assets/img/logo.jpg'),
+      // imgpath:require('../../assets/img/logo.jpg'),
+      imgpath:require('../assets/img/logo.jpg'),
       SubnavList:[],  
       searchText:'' 
     }

@@ -40,22 +40,22 @@ export default {
       activeName:'',
       imageList:[
         {
-          imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165507892712.jpg')
+          imgpath:require('../../assets/img/img/109951165507892712.jpg')
         }
         , {
-          imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508043727.jpg')
+          imgpath:require('../../assets/img/img/109951165508043727.jpg')
         }
         , {
-            imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508067721.jpg')
+          imgpath:require('../../assets/img/img/109951165508067721.jpg')           
         }
         , {
-           imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508101631.jpg')
+           imgpath:require('../../assets/img/img/109951165508101631.jpg')
         }
         , {
-            imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508108226.jpg')
+            imgpath:require('../../assets/img/img/109951165508108226.jpg')
         }
         , {
-            imgpath:require('D:/Nuxt/nuxt_project/assets/img/img/109951165508109914.jpg')
+            imgpath:require('../../assets/img/img/109951165508109914.jpg')
         }
       ],
       musicTypeList:[{
