@@ -1,12 +1,12 @@
 <template>
    <div>
-        <el-table
-            :data="singListS.slice((currpage - 1) *
-            pagesize, currpage * pagesize)"
+         <!-- :data="singListS.slice((currpage - 1) *
+            pagesize, currpage * pagesize)" -->
+        <el-table        
+            :data="showList"
             border
             :row-class-name="tableRowClassName"
-            style="width: 100%;border:none">
-            <!-- height="790" -->
+            style="width: 100%;border:none">           
             <el-table-column type="expand">
                 <template slot-scope="props">
                   <el-form label-
@@ -67,13 +67,13 @@
              <el-table-column align="center">
                 <template slot="header">
                      <input
-                    v-model="search"
-                    size="mini"
-                    placeholder="根据歌曲搜索"
-                    style="height: 26px;
-                          border-radius: 10px;
-                          border: 1px solid #00c4ff;
-                          text-align: inherit;"/>                                    
+                      v-model="search"
+                      size="mini"
+                      placeholder="根据歌曲搜索"
+                      style="height: 26px;
+                            border-radius: 10px;
+                            border: 1px solid #00c4ff;
+                            text-align: inherit;"/>                                    
                   </template>
                 <template slot-scope="scope">
                   <el-tooltip effect="light"
@@ -141,18 +141,21 @@ export default {
       currentPage: 1, // 跳转页面
       search: '',      
      }
-   },  
-   //搜索
-   watch:{
-     search:function(val){
-       console.log(val)
-       var _this = this
-      _this.singListS = _this.dataTable.filter(data =>
-        !val || data.M_Name.toLowerCase().includes(
-          val.toLowerCase()))
-          console.log( _this.singListS)
+   },
+     computed:{
+       showList(){
+          return this.singListS.slice((this.currpage - 1) *
+            this.pagesize, this.currpage *this.pagesize)
+       }
      },
-     GetTypeName(newVal){
+   
+   watch:{  //监听搜索框内容，当搜索框内容发生变化时调用searchResource方法
+     search:{
+       handler(){
+          this.watchSarch()
+       }
+     } 
+    , GetTypeName(newVal){
        console.log(newVal)
         this.TypeName = newVal
      }     
@@ -169,6 +172,13 @@ export default {
     this.GetMusicTypeNames()
   },
   methods:{  
+    watchSarch(){ 
+      this.currpage=1
+        let _seach = this.search.trim();       
+        this.singListS = this.dataTable.filter(data =>
+        !_seach || data.M_Name.toLowerCase().includes(
+          _seach.toLowerCase()))    
+    },
     //搜索音乐
     GetMusicTypeNames(){ 
         if(this.TypeName==""||this.TypeName==null||this.TypeName==undefined)
