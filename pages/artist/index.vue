@@ -74,16 +74,8 @@ export default {
            }              
         }) 
      },
-<<<<<<< HEAD
+
      GetMusicSingerId(SingerClass){      
-=======
-<<<<<<< HEAD
-     GetMusicSingerId(SingerClass){      
-=======
-     GetMusicSingerId(SingerClass){
-        //console.log("================"+SingerClass)
->>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
->>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
         this.$axios({
             method: 'post',
             url:'https://localhost:5001/MusicType/GetMusicSingerId',

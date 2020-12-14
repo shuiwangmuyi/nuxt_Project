@@ -62,41 +62,17 @@ export default {
         }).then(res => { 
             if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
               this.SubnavList=  res.data[0].data   
-<<<<<<< HEAD
               this.activeIndex='find' 
               console.log(this.SubnavList)          
              }              
         })    
-      },
+      },    
       searchClick(){     
           // console.log(this.$router)   
           // console.log(this.$router.history.current.name=='seachMusic')      
          console.log(this.searchText)   
          this.$router.push({ name: 'seachMusic', 
             params:{seactText: this.searchText}})        
-=======
-<<<<<<< HEAD
-              this.activeIndex='find' 
-              console.log(this.SubnavList)          
-             }              
-        })    
-      },
-      searchClick(){     
-          // console.log(this.$router)   
-          // console.log(this.$router.history.current.name=='seachMusic')      
-         console.log(this.searchText)   
-         this.$router.push({ name: 'seachMusic', 
-            params:{seactText: this.searchText}})        
-=======
-              this.activeIndex='find'           
-             }              
-        })    
-      },
-      searchClick(){          
-          this.$router.push({ name: 'seachMusic', 
-          params:{seactText: this.searchText}})        
->>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
->>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
       }
   }
 
