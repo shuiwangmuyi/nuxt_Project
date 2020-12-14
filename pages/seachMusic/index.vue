@@ -3,6 +3,7 @@
     <div class="seach_header">
         <el-input placeholder="请输入内容" v-model="searchT" 
           class="seachInput">
+<<<<<<< HEAD
           <el-button slot="append" @click="seachBtnClick"  icon="el-icon-search"></el-button>
        </el-input>
     </div>
@@ -11,6 +12,24 @@
         v-html="searchInfo">
         <!-- {{searchT}} -->
         </div>
+=======
+<<<<<<< HEAD
+          <el-button slot="append" @click="seachBtnClick"  icon="el-icon-search"></el-button>
+       </el-input>
+    </div>
+    <div id="mySeach">
+        <div class="mysecah-top" 
+        v-html="searchInfo">
+        <!-- {{searchT}} -->
+        </div>
+=======
+          <el-button slot="append" icon="el-icon-search"></el-button>
+       </el-input>
+    </div>
+    <div id="mySeach">
+        <div class="mysecah-top" v-html="searchInfo">{{searchT}}</div>
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
         <div class="m-tabs-srch">
           <el-tabs v-model="activeName" type="border-card" 
                     @tab-click="handleClick">
@@ -57,6 +76,10 @@
                            <el-button icon="el-icon-delete" circle></el-button>
                         </div>
                 </div>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
               <div v-else>                
                   <!-- <el-collapse accordion>  -->
                     <el-collapse v-model="activeNames" 
@@ -86,6 +109,13 @@
                   </el-collapse>
               </div>
             </el-tab-pane>
+<<<<<<< HEAD
+=======
+=======
+              <div v-else>s</div>
+              </el-tab-pane>
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
           </el-tabs>
         </div>
     </div>
@@ -99,17 +129,32 @@ export default {
      return {searchT:Seachvalue}    
     },
     data(){
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
       return{ 
         searchT:'',
         Words:'',
         show:true,  
         activeNames: ['1'] ,  
+<<<<<<< HEAD
+=======
+=======
+      return{
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
         activeName:'first',
         tabs:[
           {name:'first',lable:'单曲'},
           {name:'second',lable:'歌手'},
           {name:'third',lable:'歌词'}         
           ],
+<<<<<<< HEAD
+          seach_word:'',
+        musicTable:[],     
+=======
+<<<<<<< HEAD
           seach_word:'',
         musicTable:[],     
         searchCout:0,
@@ -189,6 +234,91 @@ export default {
           // console.log(event.target.nodeName==="BUTTON")
       },
     
+=======
+        musicTable:[],
+        searchT:'',
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
+        searchCout:0,
+        searchInfo:`搜索"
+                <span style="color:red">''</span>"，
+                找到 <span style="color:red">0</span> 首单曲`  
+     }
+    },
+    watch:{
+      
+    },
+    filters:{
+      filterM_Author(value){      
+        return value.slice(0,3).split('/')[0]
+      } ,  
+      filterM_Authors(value){ 
+          return value.slice(0,15).split('/')[0]
+      } 
+    },
+    // created(){
+    //   this.searchT=this.$route.params.seactText
+    // },
+    mounted(){
+      // console.log(this.$route)
+       this.getSeachValue()
+    },
+   methods:{
+<<<<<<< HEAD
+      filterM_Words(value,sea){         
+        if(value==undefined||value=='')
+          return value 
+        let reval=''
+        // console.log(value)     
+        let seaArray=value.split(/[(\r\n)\r\n]+/)  //转数组       
+        for(var i=0;i<seaArray.length-1;i++){
+          //console.log(i+"============="+seaArray[i])  
+          if(seaArray[i].indexOf(sea)>-1){
+            reval+=`<span style="color: red;display: block;text-align: left;">${seaArray[i]}</span>`
+            let cout=0          
+            for(var j=i+1;j<seaArray.length-1;j++){
+              cout++   
+              if(cout>=6)
+                {
+                reval+=`<span style="display: block;text-align: left;">
+                ${seaArray[j]} 
+                <el-button  class="btnCs">                   
+                  更多>></el-button>`  
+                   break                              
+                }  
+              reval+=`<span style="display: block;text-align: left;">`               
+            }
+            break;
+          }
+        }     
+        return reval 
+      },
+      addComment(event,M_Words){ 
+        this.Words='' 
+          if(event.target.nodeName==="EL-BUTTON"){
+            this.show=!this.show  
+            let reval=''         
+            let seaArray=M_Words.split(/[(\r\n)\r\n]+/)
+            for(var i=0;i<seaArray.length-1;i++){          
+              if(seaArray[i].indexOf(this.searchT)>-1){
+                this.Words+=`<span style="color: red;display: block;text-align: left;">${seaArray[i]}</span>`       
+                for(var j=i+1;j<seaArray.length-1;j++){             
+                  console.log(j+"===")
+                  console.log(seaArray.length)               
+                  this.Words+=`<span style="display: block;text-align: left;">
+                  ${seaArray[j]}</span>`                   
+                }
+                 this.Words+=`<el-button style="float: left;" class="btnCs">                   
+                  更少>></el-button>`
+                break;
+              }
+            }             
+          }
+          // console.log(event.target.nodeName==="BUTTON")
+      },
+    
+=======
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
       getSeachValue(){
          this.$axios({
           method: 'post',
@@ -197,12 +327,28 @@ export default {
           dataType: "json"
         })
         .then(res=>{
+<<<<<<< HEAD
            // console.log(res.data)
             if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
                  this.musicTable = res.data[0].data
                  this.searchInfo=`搜索
                           "<span style="color:red">${this.searchT}</span>"，
                                 找到 <span style="color:red">${res.data[0].Total}</span> 首单曲'`
+=======
+<<<<<<< HEAD
+           // console.log(res.data)
+            if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
+                 this.musicTable = res.data[0].data
+                 this.searchInfo=`搜索
+                          "<span style="color:red">${this.searchT}</span>"，
+                                找到 <span style="color:red">${res.data[0].Total}</span> 首单曲'`
+=======
+            console.log(res.data)
+            if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
+                 this.musicTable = res.data[0].data
+
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
             }else{
               this.$message({
                 message: '查询数据失败',
@@ -219,6 +365,10 @@ export default {
         })  
        } ,
       handleClick(tab, event){
+<<<<<<< HEAD
+        
+=======
+<<<<<<< HEAD
         
       },
       handleChangess(val){
@@ -244,6 +394,37 @@ export default {
     border: none;
      background: white;               
   }
+=======
+         console.log(this.activeName)
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
+      },
+      handleChangess(val){
+       this.show=true
+      },
+      AddMusic(){
+
+      },
+      PlayMusic(){
+        
+      },
+      seachBtnClick(){
+         this.getSeachValue()
+      }      
+    }
+  }
+</script>
+
+<style>
+<<<<<<< HEAD
+  .btnCs{
+   color: red;
+    margin-left: 30px;
+    border: none;
+     background: white;               
+  }
+=======
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
  .seach_header{
    padding-top: 15px;
  }
@@ -294,7 +475,18 @@ export default {
   .img-info{
     width: 100px;
     margin-top:10px
+<<<<<<< HEAD
   }  
+=======
+<<<<<<< HEAD
+  }  
+=======
+  }
+  .img-info .demonstration{
+     /* color: red; */
+  }
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
   .img-info button{
     color: red;
     float: right;
@@ -302,6 +494,10 @@ export default {
     top: -7px;
     border: none;
   }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
   .seach_word{
     height: 60px;
   }
@@ -334,4 +530,9 @@ export default {
     top: -52px;
     width: 60px;
   }
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 579097af9b64291838346c2638b29b0933cf16ad
+>>>>>>> 94bdbea4e8e3887cd45b2e4898da9799af501b31
 </style>
