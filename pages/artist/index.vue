@@ -74,8 +74,7 @@ export default {
            }              
         }) 
      },
-     GetMusicSingerId(SingerClass){
-        //console.log("================"+SingerClass)
+     GetMusicSingerId(SingerClass){      
         this.$axios({
             method: 'post',
             url:'https://localhost:5001/MusicType/GetMusicSingerId',

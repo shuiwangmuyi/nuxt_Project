@@ -7,7 +7,7 @@
             :row-class-name="tableRowClassName"
             style="width: 100%;border:none">
             <!-- height="790" -->
-              <el-table-column type="expand">
+            <el-table-column type="expand">
                 <template slot-scope="props">
                   <el-form label-
                     position="left" 
@@ -38,7 +38,7 @@
                     </el-form-item>  
                   </el-form>
                 </template>
-              </el-table-column>
+            </el-table-column>
             <el-table-column type="index">
             </el-table-column>
             <el-table-column
@@ -208,7 +208,6 @@ export default {
     },
     //停止播放
     StopMusic(index, row){
-
     },
     //添加列表
     AddMusic(index, row){
@@ -216,7 +215,6 @@ export default {
     },
     // 播放音乐
     PlayMusic(index,row){
-
     },
     change (e) {
       this.$forceUpdate()

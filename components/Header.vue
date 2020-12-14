@@ -62,13 +62,17 @@ export default {
         }).then(res => { 
             if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
               this.SubnavList=  res.data[0].data   
-              this.activeIndex='find'           
+              this.activeIndex='find' 
+              console.log(this.SubnavList)          
              }              
         })    
       },
-      searchClick(){          
-          this.$router.push({ name: 'seachMusic', 
-          params:{seactText: this.searchText}})        
+      searchClick(){     
+          // console.log(this.$router)   
+          // console.log(this.$router.history.current.name=='seachMusic')      
+         console.log(this.searchText)   
+         this.$router.push({ name: 'seachMusic', 
+            params:{seactText: this.searchText}})        
       }
   }
 
