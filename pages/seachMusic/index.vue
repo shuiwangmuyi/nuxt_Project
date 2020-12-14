@@ -207,12 +207,12 @@ export default {
            // console.log(res.data)
             if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
                  this.musicTable = res.data[0].data
-                 this.searchInfo=`鎼滅储
-                          "<span style="color:red">${this.searchT}</span>"锛
-                                鎵惧埌 <span style="color:red">${res.data[0].Total}</span> 棣栧崟鏇²'`
+                 this.searchInfo=`搜索
+                          "<span style="color:red">${this.searchT}</span>"找到
+                                单曲 <span style="color:red">${res.data[0].Total}</span> 首`
             }else{
               this.$message({
-                message: '鏌ヨ¯㈡暟鎹®澶辫触',
+                message: `未搜索到歌曲${this.searchT}`,
                 center: true
               })
             }
@@ -220,7 +220,7 @@ export default {
         .catch(err=>{
           console.log(err)
           this.$message({
-                message: '鏌ヨ¯㈡暟鎹®澶辫触',
+                mmessage: `未搜索到歌曲${this.searchT}`,
                 center: true
               })
         })  
