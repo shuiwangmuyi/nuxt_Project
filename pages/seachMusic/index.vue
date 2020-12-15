@@ -1,16 +1,7 @@
-Author: muyi <1752993763@qq.com>  2020-12-07 11:03:50
-Committer: muyi <1752993763@qq.com>  2020-12-10 16:58:52
-Child:  e6ae1d02e1ed4ae3756c3eb50f53596e24c13d00 (Merge branch 'master' of https://github.com/shuiwangmuyi/nuxt_Project)
-Branches: master, muyi, remotes/origin/master
-Follows: 
-Precedes: 
-
-    完善代码
-pages/seachMusic/index.vue
 <template>
   <div>
     <div class="seach_header">
-        <el-input placeholder="璇疯緭鍏ュ唴瀹¹" v-model="searchT" 
+        <el-input placeholder="请输入搜索信息" v-model="searchT" 
           class="seachInput">
           <el-button slot="append" @click="seachBtnClick"  icon="el-icon-search"></el-button>
        </el-input>
@@ -60,15 +51,15 @@ pages/seachMusic/index.vue
                       <el-image
                         style="width: 100px; height: 100px"
                         :src="img.M_Img"
-                        fit="fit"></el-image>
-                        <div class="img-info">
-                          <span class="demonstration">{{ img.M_Author|filterM_Author }}</span>
-                           <el-button icon="el-icon-delete" circle></el-button>
-                        </div>
+                        fit="fit">
+                      </el-image>
+                      <div class="img-info">
+                        <span class="demonstration">{{ img.M_Author|filterM_Author }}</span>
+                          <el-button icon="el-icon-delete" circle></el-button>
+                      </div>
                 </div>
-              <div v-else>                
-                  <!-- <el-collapse accordion>  -->
-                    <el-collapse v-model="activeNames" 
+              <div v-else-if="activeName=='third'">                
+                  <el-collapse v-model="activeNames" 
                     @change="handleChangess">
                       <el-collapse-item
                         v-for="(col,index) in musicTable" 
@@ -79,7 +70,7 @@ pages/seachMusic/index.vue
                               :src="col.M_Img" fit="fit">
                             </el-image>                         
                           <div class="M_Name">{{col.M_Name}}</div>
-                          <div class="M_Author">{{col.M_Author|filterM_Authors}}</div>
+                          <div class="M_Author">{{col.M_Author|filterM_Author}}</div>
                           <div class="hot">{{col.M_Hot}}</div>
                           </div>
                         </template>                        
@@ -93,6 +84,21 @@ pages/seachMusic/index.vue
                         </div>
                       </el-collapse-item>
                   </el-collapse>
+              </div>
+              <div v-else>
+                 <div style="width:100px" v-for="(user,index) in musicTable" 
+                      :key="index">
+                    <el-image
+                      style="width: 100px; height: 100px"
+                      :src="user.U_ICO"
+                      fit="fit">
+                    </el-image>
+                   <div class="img-info">
+                      <span class="demonstration">
+                        {{ user.U_Name }}
+                      </span>                                                     
+                    </div>
+                 </div>
               </div>
             </el-tab-pane>
           </el-tabs>
@@ -108,8 +114,9 @@ export default {
      return {searchT:Seachvalue}    
     },
     data(){
-      return{ 
-        searchT:'',
+      return{  
+        usimg:require('../../assets/img/ICOImg/kongbudianyingzhenzi.png'),       
+        searchT:'',        
         Words:'',
         show:true,  
         activeNames: ['1'] ,  
@@ -117,7 +124,8 @@ export default {
         tabs:[
           {name:'first',lable:'单曲'},
           {name:'second',lable:'歌手'},
-          {name:'third',lable:'歌词'}         
+          {name:'third',lable:'歌词'},
+          {name:'fourTh',lable:'用户'}          
           ],
           seach_word:'',
         musicTable:[],     
@@ -130,11 +138,15 @@ export default {
       
     },
     filters:{
-      filterM_Author(value){      
-        return value.slice(0,3).split('/')[0]
-      } ,  
-      filterM_Authors(value){ 
+      filterM_Author(value){
+        if(value==undefined)
+        return value
+        if(value.length>=3&&value.length<15)      
+          return value.slice(0,3).split('/')[0]
+        else if(value.length>=15)
           return value.slice(0,15).split('/')[0]
+         else
+          return value
       } 
     },
     // created(){
@@ -194,19 +206,20 @@ export default {
             }             
           }
           // console.log(event.target.nodeName==="BUTTON")
-      },
-    
+      },    
       getSeachValue(){
          this.$axios({
           method: 'post',
           url:'https://localhost:5001/Music/SeachMusicName',
-          params:{seachName:this.searchT},
+          params:{seachName:this.searchT,
+                  seachType:this.activeName},
           dataType: "json"
         })
-        .then(res=>{
-           // console.log(res.data)
-            if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
+        .then(res=>{         
+            if(res.data[0].code==='200'
+              &&res.data[0].msg==="OK"){             
                  this.musicTable = res.data[0].data
+                 console.log(this.musicTable)
                  this.searchInfo=`搜索
                           "<span style="color:red">${this.searchT}</span>"找到
                                 单曲 <span style="color:red">${res.data[0].Total}</span> 首`
@@ -226,7 +239,9 @@ export default {
         })  
        } ,
       handleClick(tab, event){
-        
+        this.activeName=tab.name
+        this.getSeachValue()
+        // console.log(tab.label)
       },
       handleChangess(val){
        this.show=true
@@ -283,10 +298,10 @@ export default {
   ,.m-tabs-srch div div div .el-tabs__nav-scroll div #tab-third{
     width: 200px;
   }
-  .seachelTable .el-table__header-wrapper 
+  /* .seachelTable .el-table__header-wrapper 
   {
     display: none;
-  }  
+  }   */
 
   #pane-second{
     text-align: left;

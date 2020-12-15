@@ -43,7 +43,7 @@ export default {
     return{
       activeIndex:'find',
       // imgpath:require('../../assets/img/logo.jpg'),
-      imgpath:require('../assets/img/logo.jpg'),
+      imgpath:require('../assets/img/ICOImg/kongbudianyingkulou.png'),
       SubnavList:[],  
       searchText:'' 
     }
