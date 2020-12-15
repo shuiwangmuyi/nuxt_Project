@@ -12,13 +12,15 @@
         <!-- {{searchT}} -->
         </div>
         <div class="m-tabs-srch">
-          <el-tabs v-model="activeName" type="border-card" 
+          <el-tabs v-model="activeName" 
+              type="border-card" 
                     @tab-click="handleClick">
                <el-tab-pane v-for="tab in tabs" 
                   :key="tab.name"  
                   :label="tab.lable" 
                   :name="tab.name">
-                <el-table v-if="activeName=='first'" class="seachelTable"
+                <el-table v-if="activeName=='first'" 
+                        class="seachelTable"
                   :data="musicTable">
                     <el-table-column width="60px">
                         <el-button  @click="PlayMusic(scope.$index, singListS)"
@@ -47,7 +49,10 @@
                       </el-button>
                       </el-table-column>                   
                 </el-table>                
-                <div class="img-block" v-else-if="activeName=='second'" v-for="img in musicTable" :key="img.M_Id">
+                <div v-else-if="activeName=='second'">
+                  <div class="img-block"                     
+                    v-for="img in musicTable" 
+                    :key="img.M_Id">
                       <el-image
                         style="width: 100px; height: 100px"
                         :src="img.M_Img"
@@ -57,8 +62,9 @@
                         <span class="demonstration">{{ img.M_Author|filterM_Author }}</span>
                           <el-button icon="el-icon-delete" circle></el-button>
                       </div>
+                  </div>
                 </div>
-              <div v-else-if="activeName=='third'">                
+                <div v-else-if="activeName=='third'">                
                   <el-collapse v-model="activeNames" 
                     @change="handleChangess">
                       <el-collapse-item
@@ -84,8 +90,8 @@
                         </div>
                       </el-collapse-item>
                   </el-collapse>
-              </div>
-              <div v-else>
+                </div>
+                <div v-else>
                  <div style="width:100px" v-for="(user,index) in musicTable" 
                       :key="index">
                     <el-image
@@ -93,13 +99,13 @@
                       :src="user.U_ICO"
                       fit="fit">
                     </el-image>
-                   <div class="img-info">
+                    <div class="img-info">
                       <span class="demonstration">
                         {{ user.U_Name }}
                       </span>                                                     
                     </div>
                  </div>
-              </div>
+               </div>
             </el-tab-pane>
           </el-tabs>
         </div>
@@ -115,7 +121,6 @@ export default {
     },
     data(){
       return{  
-        usimg:require('../../assets/img/ICOImg/kongbudianyingzhenzi.png'),       
         searchT:'',        
         Words:'',
         show:true,  
@@ -127,7 +132,7 @@ export default {
           {name:'third',lable:'歌词'},
           {name:'fourTh',lable:'用户'}          
           ],
-          seach_word:'',
+        seach_word:'',
         musicTable:[],     
         searchCout:0,
         searchInfo:''
@@ -135,7 +140,9 @@ export default {
      }
     },
     watch:{
-      
+      musicTable:function(){
+        this.musicTable=this.musicTable
+      }
     },
     filters:{
       filterM_Author(value){
@@ -207,7 +214,8 @@ export default {
           }
           // console.log(event.target.nodeName==="BUTTON")
       },    
-      getSeachValue(){
+      getSeachValue(){  
+        this.musicTable=[]      
          this.$axios({
           method: 'post',
           url:'https://localhost:5001/Music/SeachMusicName',
@@ -230,8 +238,7 @@ export default {
               })
             }
         })
-        .catch(err=>{
-          console.log(err)
+        .catch(err=>{         
           this.$message({
                 mmessage: `未搜索到歌曲${this.searchT}`,
                 center: true
@@ -240,8 +247,7 @@ export default {
        } ,
       handleClick(tab, event){
         this.activeName=tab.name
-        this.getSeachValue()
-        // console.log(tab.label)
+        this.getSeachValue()      
       },
       handleChangess(val){
        this.show=true

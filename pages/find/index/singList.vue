@@ -42,7 +42,8 @@
             <el-table-column type="index">
             </el-table-column>
             <el-table-column
-                sortable
+                sortable 
+                prop="M_Name"                 
                 label="歌曲标题"
                 >
               <template slot-scope="scope">
@@ -51,6 +52,7 @@
             </el-table-column>
             <el-table-column
                 sortable
+                prop="M_Author"  
                 label="歌手"
                 >
                 <template slot-scope="scope">
@@ -59,6 +61,7 @@
             </el-table-column>
             <el-table-column
                 label="专辑"
+                prop="M_Name"
                 sortable >
                 <template slot-scope="scope">
                   {{scope.row.M_Name|filtersAuthor}} 
@@ -136,8 +139,7 @@ export default {
        singListS:[] ,            
        dataTable: [], // 定义一个中间变量
         pagesize: 10, // 页面条数
-      currpage: 1, // 当前页
-      _currpage: '',
+      currpage: 1, // 当前页  
       currentPage: 1, // 跳转页面
       search: '',      
      }
