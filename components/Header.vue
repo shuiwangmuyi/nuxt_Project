@@ -17,12 +17,12 @@
               </el-input>          
             <!-- 右边登录等 -->
             <div class="header-right">
-              <div class="logo">登录</div>
-              <div class="control">注册</div>
+              <div class="logo" @click="Sign_IN">登录</div>
+              <div class="control" @click="Sign_Up">注册</div>
               <div class="user" v-show="false">user</div>
             </div>
          </div> 
-      </div>
+      </div>      
        <div class="wrap">
         <el-menu  mode="horizontal" 
             router style="height:0px"
@@ -52,6 +52,12 @@ export default {
      this.getMusicSubnav()
   },
   methods:{
+    Sign_IN(){    
+       this.$emit('func',"first")
+    },
+    Sign_Up(){
+      this.$emit('func',"second")     
+    },
       handleSelect(key, keyPath) {       
         console.log(key, keyPath);
       },

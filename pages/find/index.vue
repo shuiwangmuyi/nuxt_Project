@@ -26,7 +26,6 @@
           </el-menu-item> 
         </el-menu> -->
     </div>
-      
   </div>
 </template>
 
@@ -34,7 +33,9 @@
 import singList from "./index/singList";
 export default {
   name: "find",
-  components: {SingList:singList},
+  components: {
+    SingList:singList,
+    },
   data(){
     return{
       activeName:'',

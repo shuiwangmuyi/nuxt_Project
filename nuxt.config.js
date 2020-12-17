@@ -40,7 +40,7 @@ export default {
  
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    // 防止element-ui、axios被多次打包
+    // 防止element-ui、axios被多次打包  
     vendor: ['element-ui','axios']
   }
 }

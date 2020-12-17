@@ -220,13 +220,16 @@ export default {
     },
     //停止播放
     StopMusic(index, row){
+
     },
     //添加列表
     AddMusic(index, row){
-      
+       
     },
     // 播放音乐
     PlayMusic(index,row){
+      this.$router.push({ name: 'playMusics', 
+            params:{seactText: row}})
     },
     change (e) {
       this.$forceUpdate()
