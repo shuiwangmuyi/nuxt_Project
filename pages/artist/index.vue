@@ -5,21 +5,24 @@
               :key="index" 
               :label="SingerList.SingerClass"
               :name="SingerList.SingerClass">
-             <div class="block" 
-                v-for="songer in SongerList"
-                :key="songer.SingerId">                
-                <div style="height:105px">
-                    <el-image
-                    style="width: 100px; height: 100px"
-                    :src="songer.SingerImg"
-                    fit="fit"></el-image>
-                <i class="pai">{{songer.SingeRanking}}<em>ST</em></i>
-                </div>
-                <div class="_block">
-                    <span class="demonstration">
-                        {{ songer.SingerName|filterSingerName}}
-                    </span>
-                </div>              
+                <div class="block" 
+                    v-for="songer in SongerList"
+                    :key="songer.SingerId">                
+                    <nuxt-link :to=" '/SongerInfo?SingerId=' + songer.SingerId ">
+                        <div style="height:105px">
+                            <el-image
+                                style="width: 100px; height: 100px"
+                                :src="songer.SingerImg"
+                                fit="fit">
+                            </el-image>
+                            <i class="pai">{{songer.SingeRanking}}<em>ST</em></i>
+                        </div>
+                        <div class="_block">
+                            <span class="demonstration">
+                                {{ songer.SingerName|filterSingerName}}
+                            </span>
+                        </div> 
+                    </nuxt-link>             
                 </div>             
              </el-tab-pane>            
         </el-tabs>
@@ -106,6 +109,10 @@ export default {
     padding: 5px 10px;
     display: inline-block;
     text-align: center;
+}
+.block a{
+    text-decoration: none;
+    color: cadetblue;
 }
 .block div i{
     font: italic 700 16px/18px Verdana;

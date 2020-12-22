@@ -1,7 +1,8 @@
 <template>
   <div>
     <div class="seach_header">
-        <el-input placeholder="请输入搜索信息" v-model="searchT" 
+        <el-input placeholder="请输入搜索信息" 
+          v-model="searchT" @keyup.enter.native="seachBtnClick"
           class="seachInput">
           <el-button slot="append" @click="seachBtnClick"  icon="el-icon-search"></el-button>
        </el-input>
@@ -13,7 +14,7 @@
         </div>
         <div class="m-tabs-srch">
           <el-tabs v-model="activeName" 
-              type="border-card" 
+              type="border-card" class="seachIn"
                     @tab-click="handleClick">
                <el-tab-pane v-for="tab in tabs" 
                   :key="tab.name"  
@@ -50,61 +51,90 @@
                       </el-table-column>                   
                 </el-table>                
                 <div v-else-if="activeName=='second'">
-                  <div class="img-block"                     
-                    v-for="img in musicTable" 
-                    :key="img.M_Id">
-                      <el-image
-                        style="width: 100px; height: 100px"
-                        :src="img.M_Img"
-                        fit="fit">
-                      </el-image>
-                      <div class="img-info">
-                        <span class="demonstration">{{ img.M_Author|filterM_Author }}</span>
-                          <el-button icon="el-icon-delete" circle></el-button>
-                      </div>
+                  <div v-if="musicTable.length>0">
+                    <div class="img-block"                     
+                      v-for="img in musicTable" 
+                      :key="img.M_Id">
+                        <el-image
+                          style="width: 100px; height: 100px"
+                          :src="img.M_Img"
+                          fit="fit">
+                        </el-image>
+                        <div class="img-info">
+                          <span class="demonstration">{{ img.M_Author|filterM_Author }}</span>
+                            <el-button icon="el-icon-delete" circle></el-button>
+                        </div>
+                    </div>
+                  </div>
+                  <div v-else
+                    class="el-table__empty-block" 
+                    style="height: 100%; width: 1053px;">
+                    <span class="el-table__empty-text">
+                      暂无数据
+                    </span>                      
                   </div>
                 </div>
                 <div v-else-if="activeName=='third'">                
-                  <el-collapse v-model="activeNames" 
-                    @change="handleChangess">
-                      <el-collapse-item
-                        v-for="(col,index) in musicTable" 
-                        :key="col.M_Id" :name="index">
-                        <template slot="title">                        
-                          <div class="seach_word">
-                            <el-image style="width: 40px; height: 40px;border-radius: 50%;"
-                              :src="col.M_Img" fit="fit">
-                            </el-image>                         
-                          <div class="M_Name">{{col.M_Name}}</div>
-                          <div class="M_Author">{{col.M_Author|filterM_Author}}</div>
-                          <div class="hot">{{col.M_Hot}}</div>
+                  <div v-if="musicTable.length>0">
+                    <el-collapse v-model="activeNames" 
+                      @change="handleChangess">
+                        <el-collapse-item
+                          v-for="(col,index) in musicTable" 
+                          :key="col.M_Id" :name="index">
+                          <template slot="title">                        
+                            <div class="seach_word">
+                              <el-image style="width: 40px; height: 40px;border-radius: 50%;"
+                                :src="col.M_Img" fit="fit">
+                              </el-image>                         
+                            <div class="M_Name">{{col.M_Name}}</div>
+                            <div class="M_Author">{{col.M_Author|filterM_Author}}</div>
+                            <div class="hot">{{col.M_Hot}}</div>
+                            </div>
+                          </template>                        
+                          <div v-if="show" style="margin-left: 165px;" 
+                            @click="addComment($event,col.M_Words)"
+                            v-html="filterM_Words(col.M_Words,searchT)">
                           </div>
-                        </template>                        
-                        <div v-if="show" style="margin-left: 165px;" 
-                           @click="addComment($event,col.M_Words)"
-                           v-html="filterM_Words(col.M_Words,searchT)">
-                        </div>
-                        <div v-else style="margin-left: 165px;"  
-                        @click="addComment($event,col.M_Words)" 
-                        v-html="Words">
-                        </div>
-                      </el-collapse-item>
-                  </el-collapse>
+                          <div v-else style="margin-left: 165px;"  
+                          @click="addComment($event,col.M_Words)" 
+                          v-html="Words">
+                          </div>
+                        </el-collapse-item>
+                    </el-collapse>
+                  </div>
+                  <div v-else
+                    class="el-table__empty-block" 
+                    style="height: 100%; width: 1053px;">
+                    <span class="el-table__empty-text">
+                      暂无数据
+                    </span>                      
+                  </div>
                 </div>
-                <div v-else>
-                 <div style="width:100px" v-for="(user,index) in musicTable" 
-                      :key="index">
-                    <el-image
-                      style="width: 100px; height: 100px"
-                      :src="user.U_ICO"
-                      fit="fit">
-                    </el-image>
-                    <div class="img-info">
-                      <span class="demonstration">
-                        {{ user.U_Name }}
-                      </span>                                                     
-                    </div>
-                 </div>
+                <div v-else>  
+                  <div v-if="musicTable.length>0">
+                     <div style="width:100px"
+                      v-for="(user,index) in musicTable" 
+                        :key="index">                      
+                      <el-image
+                        style="width: 100px; height: 100px"
+                        :src="user.U_ICO"
+                        :alt="user.U_Name"
+                        fit="fit">
+                      </el-image>                   
+                      <div class="img-info">
+                        <span class="demonstration">
+                          {{ user.U_Name }}
+                        </span>                                                     
+                      </div>
+                    </div>                    
+                  </div>  
+                  <div v-else
+                    class="el-table__empty-block" 
+                    style="height: 100%; width: 1053px;">
+                    <span class="el-table__empty-text">
+                      暂无数据
+                    </span>                      
+                  </div>
                </div>
             </el-tab-pane>
           </el-tabs>
@@ -116,6 +146,7 @@
 <script>
 export default {
    asyncData ({ params}) {
+    //asyncData ({ query}) {
      let  Seachvalue=params.seactText 
      return {searchT:Seachvalue}    
     },
@@ -132,14 +163,15 @@ export default {
           {name:'third',lable:'歌词'},
           {name:'fourTh',lable:'用户'}          
           ],
-        seach_word:'',
-        musicTable:[],     
-        searchCout:0,
-        searchInfo:''
-               
+         seach_word:'',
+         musicTable:[],     
+          searchCout:0,
+          searchInfo:`搜索
+                "<span style="color:red"></span>"找到
+                单曲 <span style="color:red">0</span> 首`  
      }
     },
-    watch:{
+    watch:{     
       musicTable:function(){
         this.musicTable=this.musicTable
       }
@@ -155,10 +187,11 @@ export default {
          else
           return value
       } 
+    },   
+    created(){
+      //console.log(this.$route.query)
+      //this.searchT=this.$route.query.seactText
     },
-    // created(){
-    //   this.searchT=this.$route.params.seactText
-    // },
     mounted(){
       // console.log(this.$route)
        this.getSeachValue()
@@ -214,8 +247,13 @@ export default {
           }
           // console.log(event.target.nodeName==="BUTTON")
       },    
-      getSeachValue(){  
-        this.musicTable=[]      
+      getSeachValue(){
+        if(this.searchT==undefined
+        ||this.searchT.trim()==''
+        ||this.searchT=='null'
+        ||this.searchT==null) 
+          return
+        this.musicTable=[]  
          this.$axios({
           method: 'post',
           url:'https://localhost:5001/Music/SeachMusicName',
@@ -309,7 +347,7 @@ export default {
     display: none;
   }   */
 
-  #pane-second{
+  .seachIn .el-tabs__header .el-tabs__nav-wrap .el-tabs__nav-scroll #pane-second{
     text-align: left;
     margin: auto;
     width: 1001px;

@@ -6,7 +6,7 @@
           <span style="color:red">{{musiCount}}<em style="color:black">首歌</em></span>
         </div>
       </div>
-     <div class="topTable">
+     <div class="topTable" style="margin-top: 30px;">
         <div class="top_musicList">
           <div class="b">
             <span>标题</span>
@@ -30,7 +30,7 @@
                   </div> -->
               </el-image>
               <div class="m-b1">                 
-                 <el-button  @click="PlayMusic(scope.$index, singListS)"
+                 <el-button  @click="PlayMusic(list)"
                     icon="el-icon-video-play" circle>
                   </el-button>
                 <span>{{ list.M_Name}}</span>
@@ -68,9 +68,9 @@
     text-align: left;
     margin-top: 12px;
   }
-  .top_musicList  .b{
+  .top_musicList .b{
     font-size: 17px;
-    left: 100px; 
+    left: 170px; 
   }
   .top_musicList .g{
     left: 500px;
@@ -86,7 +86,7 @@
     position: relative;  
     line-height: 20px;
     height: 20px;
-     width: 300px;
+     width: 200px;
   }
   .musicTable{
     margin: auto;
@@ -119,6 +119,7 @@
     position: relative;
     left: 500px;
     bottom: 68px;
+    width: 300px;
     text-align: left;    
   }
   .m-r1{
@@ -126,6 +127,7 @@
     left: 900px;
     text-align: left;
     position: relative;
+    width: 200px;
   }
 </style>
 <script>
@@ -153,8 +155,8 @@ export default {
               }              
           }) 
       },
-      PlayMusic(){
-
+      PlayMusic(list){
+        console.log(list)
       }
   }
 

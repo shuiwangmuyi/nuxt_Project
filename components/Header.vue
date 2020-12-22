@@ -48,6 +48,7 @@ export default {
       searchText:'' 
     }
   },
+  
   mounted(){
      this.getMusicSubnav()
   },
@@ -58,9 +59,9 @@ export default {
     Sign_Up(){
       this.$emit('func',"second")     
     },
-      handleSelect(key, keyPath) {       
+    handleSelect(key, keyPath) {       
         console.log(key, keyPath);
-      },
+    },
      getMusicSubnav(){
        this.$axios({
         method: 'post',
@@ -74,11 +75,10 @@ export default {
              }              
         })    
       },    
-      searchClick(){     
-          // console.log(this.$router)   
-          // console.log(this.$router.history.current.name=='seachMusic')      
-         console.log(this.searchText)   
-         this.$router.push({ name: 'seachMusic', 
+      searchClick(){    
+        //  this.$router.push({ path: '/seachMusic', 
+        //   query:{seactText: this.searchText}})
+         this.$router.push({ name: 'seachMusic',            
             params:{seactText: this.searchText}})        
       }
   }
