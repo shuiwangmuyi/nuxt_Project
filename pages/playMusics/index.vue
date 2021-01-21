@@ -35,7 +35,7 @@
                 loopMode :'all',           
                 foat:true,//浮窗               
                 musicList:[{
-                    artist: "清莞"
+                    artist: "清or莞"
                     ,pic: "http://p2.music.126.net/1-THPVfCi05CV3EORHq4eA==/42880953495560.jpg?param=100x100"
                     ,src: "http://music.163.com/song/media/outer/url?id=285196.mp3"
                     ,title: "千年缘"
