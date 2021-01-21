@@ -14,14 +14,16 @@
     }
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/proxy": "^2.0.1",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "element-ui": "^2.14.0",
     "hls.js": "^0.14.17",
     "moment": "^2.29.1",
     "nuxt": "^2.14.6",
+    "stylus": "^0.54.7",
+    "stylus-loader": "^3.0.2",
     "vue-aplayer": "^1.6.1",
     "vuedraggable": "^2.24.3"
   },

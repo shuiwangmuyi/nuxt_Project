@@ -88,27 +88,11 @@ export default {
 };
 </script>
 
-<style>
-.el-menu {
+<style lang="stylus" scoped>
+/deep/ .el-menu {
   color: #fff;
 }
-.el-carousel__item .el-image,.el-carousel__item .el-image img{
-  color: #475669;
-  font-size: 14px;
-  opacity: 0.75;
-  /* line-height: 200px; */
-  margin: 0;
-  /* height: 420px; */
-}
-
-.el-carousel__item:nth-child(2n) {    
-  background-color: #99a9bf;
-}
-
-.el-carousel__item:nth-child(2n + 1) {  
-  background-color: #d3dce6;
-}
-.el-carousel__container {
+/deep/ .el-carousel__container {
     position: relative;
     height: 210px;
 }

@@ -16,7 +16,7 @@ export default {
           callback: action => {
             this.$router.push({ name: 'find' })   
             this.$message({
-              type: 'info',
+              type: 'success',
               message: `返回成功！`
             });
           }

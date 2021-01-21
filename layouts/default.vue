@@ -5,21 +5,18 @@
         <Header @func="getMsgFormconn"></Header>
       </el-header>
       <el-container>
-        <!-- <el-aside width="200px">
-          <Aside></Aside>
-        </el-aside> -->
         <el-main>
           <Nuxt />
         </el-main>
       </el-container>
-      <el-footer>
-        <!-- <Music></Music> -->
-     
-        <!-- <Footer></Footer> -->
+      <!-- <el-footer>
+        <Footer></Footer>
       </el-footer>
+       <Music></Music> -->
     </el-container>
     
-    <el-dialog   class="headLogin"  
+    <el-dialog   
+      class="headLogin"  
       :visible.sync="dialogVisible"
       width="600px"
       :before-close="handleClose">
@@ -37,7 +34,7 @@ export default {
     Aside: aside,
     Footer: footer,  
     Login:login,    
-    //  Music:music,
+    // Music:music,
   },
   data(){
     return{
@@ -63,19 +60,10 @@ export default {
 };
 </script>
 
-<style>
-/* .foot_botton{
-  position: absolute;
-  width: 1100px;
-  top: 700px;
-} */
+<style lang="stylus" scoped>
 .el-header,
-.el-footer {
-   /* background-color: #b3c0d1; */
-  color: #333;
-  text-align: center;
-  line-height: 82px;
-  height: 82px !important;
+.el-footer{
+  height: 100% !important;
   padding: 0 !important;
 }
 .el-header{
@@ -84,7 +72,6 @@ export default {
 }
 .el-aside {
   background-color: #d3dce6;
-  color: #333;
   text-align: center;
   line-height: 200px;
 }
@@ -93,10 +80,9 @@ export default {
   background-color: white;
   color: #333;
   text-align: center;
-  /* line-height: 160px; */
 }
 .el-container{
-  width:1125px;
+  width:1200px;
   margin: 0 auto;
 }
 body > .el-container {
@@ -104,10 +90,10 @@ body > .el-container {
 }
 .headLogin .el-dialog .el-dialog__header{
   padding: 0;
-}
-.headLogin .el-dialog .el-dialog__header .el-dialog__headerbtn{
-    position: absolute;
-    top: 41px;
-    z-index: 1222;
+  .el-dialog__headerbtn{
+     position: absolute;
+     top: 41px;
+     z-index: 1222;
+  }
 }
 </style>

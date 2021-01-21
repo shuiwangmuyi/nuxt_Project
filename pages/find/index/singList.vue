@@ -127,6 +127,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
    props: ['GetTypeName'],
   // asyncData ({query }) {  
@@ -181,16 +182,21 @@ export default {
         !_seach || data.M_Name.toLowerCase().includes(
           _seach.toLowerCase()))    
     },
-    //搜索音乐
-    GetMusicTypeNames(){ 
+    //搜索音乐    
+    GetMusicTypeNames(){        
         if(this.TypeName==""||this.TypeName==null||this.TypeName==undefined)
-          this.TypeName="热们"   
-        this.$axios({
+          this.TypeName="热门"           
+       //axios.defaults.headers.Authorization = this.getToken()
+       this.$axios({
           method: 'post',
-          url:'https://localhost:5001/Music/GetMusicTypeName',
+           url:'https://localhost:5001/Music/GetMusicTypeName',
+         // url:'http://apk.neters.club/api/Blog/AddForMVP',
           params:{typeName:this.TypeName},
-          dataType: "json"
-        })
+          dataType: "json",  
+          //  headers: { 
+          //   authorization: 'Bearer ' + this.getToken() ,           
+          // }             
+        })       
         .then(res=>{
             console.log(res.data)
             if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
@@ -211,6 +217,9 @@ export default {
               })
         })  
     } ,
+    getToken(){
+      return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkZWNlZThiMy02MmJmLTQ5YzYtOWY3Mi1mZDMyMjljZjQ5OGIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiMTIzNCIsIm5iZiI6MTYwOTgzOTkyNCwiZXhwIjoxNjA5ODQ3MTI0LCJpc3MiOiJpc3N1ZXIiLCJhdWQiOiJhdWRpZW5jZSJ9.YG2YOMA7UXZ9Dgbs14HU-N0lwukUernwXVvcud8HQ5k'
+    },
     handleCurrentChange(cpage){
       this.currpage = cpage
     },
@@ -248,28 +257,32 @@ export default {
 }
 </script>
 
-<style>
-.el-table td, .el-table th{
-  /* padding: 4px; */
-  background: white;
-}
-.el-table td, .el-table th.is-leaf{
-  border: none;
-}
- .demo-table-expand {
-  height: 120px;
+<style lang="stylus" scoped>
+/deep/ .el-table{
+  td, th{
+    backgorund white
   }
-  .demo-table-expand ._el-form-item {
-    display: block;
-    position: relative;
-    top: -177px;
-    left: 151px;
-    margin-bottom: 0;
+  td, th.is-leaf{
+    border:none
   }
-.el-form-item__content img{
-  width:120px;
-  height: 120px;
-  border-radius: 60px;
+  .demo-table-expand {
+    height: 120px;
+    ._el-form-item {
+      display: block;
+      position: relative;
+      top: -177px;
+      left: 151px;
+      margin-bottom: 0;
+    }
+    .el-form-item__content img{
+      width:120px;
+      height: 120px;
+      border-radius: 60px;
+    }
+  }
+}
+.el-table::after{
+  background none
 }
 input:focus{
 	outline: medium;

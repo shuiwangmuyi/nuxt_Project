@@ -1,0 +1,204 @@
+<template>
+    <el-tabs id="login"
+        v-model="activeName" 
+        @tab-click="handleClick">
+        <el-tab-pane 
+            label="登录" 
+            name="first">
+            <div style="width:520px;height:270px;margin:auto">
+                <el-form  
+                    :label-position="labelPosition"
+                    :model="user"
+                    status-icon
+                    :rules="rules"                   
+                    ref="user">                    
+                    <el-form-item 
+                        prop="userAccout" 
+                        label="账号">
+                        <el-input 
+                            type="text"
+                            v-model="user.userAccout"
+                            autocomplete="off"
+                            prefix-icon="el-icon-s-custom"
+                            clearable>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item prop="pass" label="密码">
+                        <el-input
+                            type="password"
+                            prefix-icon="el-icon-s-goods"
+                            v-model="user.pass"
+                            autocomplete="off"
+                            show-password>
+                        </el-input>
+                    </el-form-item>
+                    <el-form-item class="codes"
+                        prop="code" 
+                        label="验证码" 
+                        style="width:500px">
+                        <el-input 
+                            type="text"
+                            v-model="user.code"
+                            autocomplete="off"
+                            clearable style="width:330px"> 
+                        </el-input>   
+                        <div @click="changeImgCode()" 
+                            style="width: 100px; 
+                            height: 40px;    
+                            display: inline-block;
+                            position: absolute;
+                            left: 390px;">
+                            <el-image  class="codeIage"
+                                :src="src" fit="fill"                            
+                                style="width: 100px; height: 40px">
+                            </el-image> 
+                        </div>             
+                    </el-form-item>               
+                    <el-form-item>
+                        <div style="margin-left: 100px;">
+                            <el-button
+                            type="primary"
+                            :loading="loading"
+                            @click.prevent="submitForm('user')" >
+                            登录</el-button>
+                        <el-button style="margin-left: 70px;"
+                            @click.prevent="resetForm('user')">
+                            重置</el-button>
+                        </div>
+                    </el-form-item>
+                </el-form> 
+            </div>        
+        </el-tab-pane>
+        <el-tab-pane 
+            label="注册" 
+            name="second">
+             <SignUp></SignUp>
+        </el-tab-pane>
+    </el-tabs>  
+</template>
+<script>
+import re from '../components/SignUp' 
+export default {     
+    components:{
+        SignUp:re,
+    },
+    data () {
+        var checkAccout = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入账号'))                                      
+            } else {
+                callback()
+            }
+        }
+        var checkPass = (rule, value, callback) => {
+            if(this.user.userAccout!==''){
+                if (value === '') {
+                callback(new Error('请输入密码'))
+                } else {
+                callback()
+                }
+            }           
+        }
+        var checkCode=(rule,value,callback)=>{
+            if(this.user.userAccout!==''
+            ||this.user.pass!==''){
+                if (value === '') {
+                callback(new Error('请输入验证码'))
+                } else {
+                    callback()
+                }
+            }   
+            
+            
+        }
+        return {
+            activeName:'first',
+            labelPosition: 'right',
+            user: {
+                userAccout: '',
+                pass: '',
+                code:''
+            },
+            src:'https://localhost:5001/Login/GetImageCode?3',                
+            color1: '#409EFF',
+            loading: false,                    
+            rules: {
+                userAccout: [{ validator: checkAccout, trigger: 'blur' }],
+                pass: [{ validator: checkPass, trigger: 'blur' }],
+                code:[{ validator: checkCode, trigger: 'blur' }]
+            }
+        }
+    },
+    mounted(){
+       // this.changeImgCode();
+    },
+    methods:{
+        //获取图片验证码
+        changeImgCode(){          
+            this.$axios({
+                method: 'get',
+                url:'https://localhost:5001/Login/GetImageCode',
+                dataType: "json"
+              }).then(res => { 
+               var num= Math.ceil(Math.random()*10);
+                console.log(res)
+                this.src=res.config.url+`?`+num
+              })
+           },
+        submitForm (formName) { 
+           // that.$store.commit("saveToken", "");//清掉 token               
+            this.$refs[formName].validate(valid => {
+                if (valid) {
+                    console.log("11111")
+                     var token = "Bearer aaaaaaaaaaaaaaaaaaaaaa";
+                   // that.$store.commit("saveToken", token);
+                   return true
+                }else {                         
+                // 没有输入数据进入===> valid 为false
+                return false
+                }
+            })                
+        },
+        resetForm (formName) {
+            this.loading = false
+            this.$refs[formName].resetFields()
+        },
+        handleClick(tab, event){
+
+        }
+
+    }
+}
+</script>
+
+<style>
+  #login{
+    width: 560px;
+    /* border: 4px solid #f4f4f5; */
+    /* margin-left: 120px;
+    margin-bottom: 120px; */
+  }
+ #login .el-tabs__header .el-tabs__nav-wrap .el-tabs__nav-scroll .el-tabs__nav #tab-first
+ {
+    margin-left: 65px;
+  }
+ #login .el-tabs__header .el-tabs__nav-wrap .el-tabs__nav-scroll .el-tabs__nav .el-tabs__active-bar{
+     left: 60px;
+ }
+  #login .el-tabs__content #pane-first div .el-form .el-form-item{
+      margin-bottom: 32px;
+  }
+ #login .el-tabs__content #pane-first div .el-form .el-form-item .el-form-item__content .el-input{
+    width: 440px;
+    margin-left: 15px;
+ }
+ #login .el-tabs__content #pane-first div .el-form .codes .el-form-item__content .el-input{
+    margin-left: 0;
+ }
+#login .el-tabs__content #pane-first div .el-form .el-form-item .el-form-item__content .el-form-item__error{
+    left: 65px;
+ } 
+.codeIage .el-image__inner {
+    height: 40px;
+}
+</style>

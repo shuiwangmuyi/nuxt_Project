@@ -17,6 +17,7 @@ export default {};
 .footer {
     float: left;
     width: 100%;
+    height: 140px;
     background-color: #FFEBCD;
 }
 .play,.control,.list {
@@ -24,7 +25,6 @@ export default {};
     background-color: #7FFFD4;
     margin-left: 2.5%;
     width: 30%;
-
 }
 
 </style>

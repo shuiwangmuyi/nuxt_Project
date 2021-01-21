@@ -1,164 +1,107 @@
 <template>
-  <div class="_toList">
-      <div class="top_head">
-        <div class="top_head_le">
-          <h1 style="font-size: xx-large;">歌曲列表</h1>
-          <span style="color:red">{{musiCount}}<em style="color:black">首歌</em></span>
-        </div>
-      </div>
-     <div class="topTable" style="margin-top: 30px;">
-        <div class="top_musicList">
-          <div class="b">
-            <span>标题</span>
+  <div class="musicTopList">
+    <div class="table_title">
+      <h1>歌曲列表</h1>
+      <span class="span_count">{{musiCount}}<em class="span_text">首歌</em></span>
+    </div>
+    <el-table style="width:100%;" :data="topMusicList" row-key="M_Id" >
+      <el-table-column label="" width="80">
+        <template>
+           <el-button @click="PlayMusic(list)" icon="el-icon-video-play" circle></el-button>
+        </template>
+      </el-table-column>
+      <el-table-column label="标题">
+        <template slot-scope="scope">
+          <div class="title_content">
+            <el-image class="title_img" :src="`${scope.row.M_Img}`" fit="fit"></el-image>
+            <span class="title_text">{{scope.row.M_Name}}</span>
           </div>
-          <div class="g">
-            <span>歌手</span>
-          </div>
-          <div class="r">
-            <span>热度</span>
-          </div>
-        </div>
-        <div class="musicTable">
-          <div v-for="(list,index) in topMusicList"
-            :key="index" style="height: 80px;">
-            <div class="m-b">
-              <el-image               
-                :src="list.M_Img"
-                fit="fit">
-                  <!-- <div slot="error" class="image-slot">
-                    <i class="el-icon-picture-outline"></i>
-                  </div> -->
-              </el-image>
-              <div class="m-b1">                 
-                 <el-button  @click="PlayMusic(list)"
-                    icon="el-icon-video-play" circle>
-                  </el-button>
-                <span>{{ list.M_Name}}</span>
-              </div>
-            </div>
-            <div class="m-g1">
-               <span>{{ list.M_Author }}</span>  
-            </div>
-           <div class="m-r1">
-              <span>{{ list.M_Hot}}</span>
-           </div>
-          </div>
-        </div>
-     </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="歌手" width="200" prop="M_Author"></el-table-column>
+      <el-table-column label="热度" width="200" prop="M_Hot"></el-table-column>
+    </el-table>
   </div>
 </template>
-<style >
-  .top_head{
-    text-align: left;
-    height: 60px;
-    /* border: 1px solid red; */
-  }  
-  .top_head_le{
-      width: 400px;
-      display: inline-block;
-      line-height: 60px;
-  }
-  .top_head_le span{
-    position: relative;
-    color: red;
-    left: 160px;
-    top: -55px;;
-  }
-  .top_musicList{
-    text-align: left;
-    margin-top: 12px;
-  }
-  .top_musicList .b{
-    font-size: 17px;
-    left: 170px; 
-  }
-  .top_musicList .g{
-    left: 500px;
-     bottom: 20px;
-  }
-  .top_musicList .r{
-    left: 900px;
-     bottom: 40px;
-  }
-  .top_musicList .b,
-  .top_musicList .g,
-  .top_musicList .r{  
-    position: relative;  
-    line-height: 20px;
-    height: 20px;
-     width: 200px;
-  }
-  .musicTable{
-    margin: auto;
-  }
-  musicTable div
-  {
-    height: 80px;
-  }
-  .m-b{
-    width: 257px;
-    position: relative;
-    left: -13px;
-  }
-  .m-b .el-image {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-  }
-  .m-b1{
-    position: relative;
-    left: 200px;
-    bottom: 40px;
-    text-align: left;   
-  }
-  .m-b1 .el-button{
-      border: none;
-      margin-right: 12px;     
-  }   
-  .m-g1{
-    position: relative;
-    left: 500px;
-    bottom: 68px;
-    width: 300px;
-    text-align: left;    
-  }
-  .m-r1{
-    bottom: 84px;  
-    left: 900px;
-    text-align: left;
-    position: relative;
-    width: 200px;
-  }
-</style>
 <script>
 export default {
-  data(){
-    return{
-      musiCount:0,
+  data() {
+    return {
+      musiCount: 0,
       topMusicList:[]
-    }
+    };
   },
-  mounted(){
-      this.GetTopList()
+  mounted() {
+    this.GetTopList();
   },
-  methods:{
-      GetTopList(){
-         this.$axios({
-          method: 'post',
-          url:'https://localhost:5001/Music/GetMusicHotName',
-          dataType: "json"
-          }).then(res => { 
-              if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
-                this.topMusicList=  res.data[0].data 
-                this.musiCount=res.data[0].Total         
-                console.log(this.topMusicList)          
-              }              
-          }) 
-      },
-      PlayMusic(list){
-        console.log(list)
-      }
-  }
-
-}
+  methods: {
+    GetTopList() {
+      this.$axios({
+        method: "post",
+        url: "https://localhost:5001/Music/GetMusicHotName",
+        dataType: "json",
+      }).then((res) => {
+        if (res.data[0].code === "200" && res.data[0].msg === "OK") {
+          this.topMusicList = res.data[0].data;
+          this.musiCount = res.data[0].Total;
+          console.log(this.topMusicList);
+        }
+      });
+    },
+    PlayMusic(list) {
+      console.log(list);
+    },
+  },
+};
 </script>
+<style lang="stylus" scoped>
+.musicTopList{
+  .table_title{
+    text-align:left;
+    height:60px;
+    width: 100%;
+    display: inline-block;
+    line-height: 60px;
+    h1{
+      font-size: xx-large;
+      float:left;
+      width:80%
+    }
+    .span_count{
+      color: red;
+      .span_text{
+        color:black;
+      }
+    }
+  }
+  .el-table{
+    margin-top:20px;
+    /deep/ thead{
+      color #909399
+      font-size 18px
+      font-weight bold
+    }
+    /deep/ td, /deep/ th.is-leaf{
+      border none
+    }
+    .title_content{
+      width 100%
+      height 100%
+      .title_img{
+        width 50px
+        height 50px
+        float left
+        border-radius 50%
+      }
+      .title_text{
+        display inline-block
+        line-height 50px
+        margin-left 20px
+      }
+    }
+  }
+  .el-table::before{
+    background none
+  }
+}
+</style>
