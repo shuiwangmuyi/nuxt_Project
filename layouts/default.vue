@@ -9,10 +9,11 @@
           <Nuxt />
         </el-main>
       </el-container>
-      <!-- <el-footer>
-        <Footer></Footer>
+      <el-footer>
+        <div style="height:100px"></div>
+        <!-- <Footer></Footer> -->
       </el-footer>
-       <Music></Music> -->
+       <Music></Music>
     </el-container>
     
     <el-dialog   
