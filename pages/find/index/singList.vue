@@ -128,23 +128,24 @@
 
 <script>
 import axios from 'axios'
+import vmson from '~/store/emptyVue'
 export default {
    props: ['GetTypeName'],
   // asyncData ({query }) {  
   //    let request1Data=params.GetTypeName  
   //    console.log(query)
   // },
-  data(){
-     return{
-       TypeName:this.GetTypeName,
-       singListS:[] ,            
-       dataTable: [], // 定义一个中间变量
+    data(){
+      return{
+        TypeName:this.GetTypeName,
+        singListS:[] ,            
+        dataTable: [], // 定义一个中间变量
         pagesize: 10, // 页面条数
-      currpage: 1, // 当前页  
-      currentPage: 1, // 跳转页面
-      search: '',      
-     }
-   },
+        currpage: 1, // 当前页  
+        currentPage: 1, // 跳转页面
+        search: '',   
+      }
+    },
      computed:{
        showList(){
           return this.singListS.slice((this.currpage - 1) *
@@ -159,7 +160,7 @@ export default {
        }
      } 
     , GetTypeName(newVal){
-       console.log(newVal)
+       //console.log(newVal)
         this.TypeName = newVal
      }     
    },
@@ -189,19 +190,22 @@ export default {
        //axios.defaults.headers.Authorization = this.getToken()
        this.$axios({
           method: 'post',
-           url:'https://localhost:5001/Music/GetMusicTypeName',
-         // url:'http://apk.neters.club/api/Blog/AddForMVP',
+          // url:'https://localhost:5001/Music/GetMusicTypeName',
+           url:'/api/GetMusicTypeName',      
           params:{typeName:this.TypeName},
-          dataType: "json",  
-          //  headers: { 
-          //   authorization: 'Bearer ' + this.getToken() ,           
-          // }             
+          //dataType: "json",  
+            headers: { 
+             authorization: 'Bearer ' + `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjMTBlYWZkOC0yZDhmLTQ5YmItYmJjMS00YjkzZjE0NzMzN2YiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiMTIiLCJuYmYiOjE2MTE4OTc4MjAsImV4cCI6MTYxMTkwNTAyMCwiaXNzIjoiaXNzdWVyIiwiYXVkIjoiYXVkaWVuY2UifQ.h6GaHQ4dV3kTyHLt5suThdqSBm_MriShV9p_3EHai3E`,           
+           }             
         })       
         .then(res=>{
-            console.log(res.data)
+           // console.log(res.data)
             if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
                  this.dataTable = res.data[0].data
                  this.singListS = this.dataTable
+                //  console.log(
+                //    this.dataTable.sort(
+                //      (a,b)=>a.M_Time>=b.M_Time? 1:-1));
             }else{
               this.$message({
                 message: '查询数据失败',
@@ -210,7 +214,7 @@ export default {
             }
         })
         .catch(err=>{
-          console.log(err)
+        //  console.log(err)
           this.$message({
                 message: '查询数据失败',
                 center: true
@@ -224,21 +228,22 @@ export default {
       this.currpage = cpage
     },
     handleSizeChange (psize) {
-      console.log('==============' + psize)
+      //console.log('==============' + psize)
       this.pagesize = psize
     },
     //停止播放
     StopMusic(index, row){
-
+      vmson.$emit('MusicMethods',0,row[this.pagesize  *(this.currpage-1)+index])
     },
     //添加列表
-    AddMusic(index, row){
-       
+    AddMusic(index, row){      
+       vmson.$emit('MusicMethods',2,row[this.pagesize  *(this.currpage-1)+index])
     },
     // 播放音乐
     PlayMusic(index,row){
-      this.$router.push({ name: 'playMusics', 
-            params:{seactText: row}})
+      vmson.$emit('MusicMethods',1,row[this.pagesize  *(this.currpage-1)+index])
+      //  this.$router.push({ name: 'playMusic', 
+      //      params:{seactText: row[this.pagesize  *(this.currpage-1)+index]}})
     },
     change (e) {
       this.$forceUpdate()

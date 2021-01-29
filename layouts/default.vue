@@ -10,10 +10,10 @@
         </el-main>
       </el-container>
       <el-footer>
-        <div style="height:100px"></div>
+        <div style="height:80px"></div>
         <!-- <Footer></Footer> -->
       </el-footer>
-       <Music></Music>
+       <Music @ParseFun="parentFn"></Music>
     </el-container>
     
     <el-dialog   
@@ -44,6 +44,10 @@ export default {
     }
   },
   methods:{
+    //获取播放是歌曲
+    parentFn(music){
+      console.log(music);
+    },
     getMsgFormconn(data){
       // console.log(data+"sssssssssssss")  
       this.activeName=data  

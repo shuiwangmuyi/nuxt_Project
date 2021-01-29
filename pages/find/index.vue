@@ -74,7 +74,7 @@ export default {
         url:'https://localhost:5001/MusicType/GetMusicTypeData',
         dataType: "json"
         }).then(res => {          
-          console.log(res.data)         
+         // console.log(res.data)         
          if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
              this.musicTypeList=  res.data[0].data  
              this.activeName=res.data[0].data[0].TypeName        

@@ -1,3 +1,4 @@
+const webpack = require('webpack')
 export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
@@ -18,8 +19,7 @@ export default {
     'element-ui/lib/theme-chalk/index.css',
     '~/assets/css/reset.css',
     '~/assets/css/global.css'
-  ],
-
+  ], 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     // ssr: true表示这个插件只在服务端起作用
@@ -41,18 +41,19 @@ export default {
   ],
   axios: {
     proxy: true, // 表示开启代理
-    timeout: 5000,
-    prefix: '/api/', // 表示给请求url加个前缀 /api
+    //timeout: 5000,
+    //prefix: '/api', // 表示给请求url加个前缀 /api
     //withCredentials: true // 表示跨域请求时是否需要使用凭证
     credentials:true
   },
-  proxyTable: {
+  proxy: {
     '/api/': { 
-      target: 'http://127.0.0.1:5001',// 接口
-      ws:false, 
+      target: 'https://localhost:5001',// 接口
+      ws:true,
+      secure:false,
+      changeOrigin:true,//表示是否跨域       
       pathRewrite: {
-        '^/api': '', // 把 /api 替换成 /
-        changeOrigin: true  //表示是否跨域
+        //'^/api': '', // 把 /api 替换成 /          
       }    
     }
   },
@@ -60,6 +61,11 @@ export default {
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
     // 防止element-ui、axios被多次打包  
-    vendor: ['element-ui','axios']
+    vendor: ['element-ui','axios'],
+    plugins: [
+      new webpack.ProvidePlugin({
+          '$' : 'jquery' 
+      })
+  ]
   }
 }
