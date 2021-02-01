@@ -159,8 +159,7 @@ export default {
           this.watchSarch()
        }
      } 
-    , GetTypeName(newVal){
-       //console.log(newVal)
+    , GetTypeName(newVal){   
         this.TypeName = newVal
      }     
    },
@@ -195,17 +194,13 @@ export default {
           params:{typeName:this.TypeName},
           //dataType: "json",  
             headers: { 
-             authorization: 'Bearer ' + `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjMTBlYWZkOC0yZDhmLTQ5YmItYmJjMS00YjkzZjE0NzMzN2YiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiMTIiLCJuYmYiOjE2MTE4OTc4MjAsImV4cCI6MTYxMTkwNTAyMCwiaXNzIjoiaXNzdWVyIiwiYXVkIjoiYXVkaWVuY2UifQ.h6GaHQ4dV3kTyHLt5suThdqSBm_MriShV9p_3EHai3E`,           
+             authorization: 'Bearer ' + `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzNjE2NjBhMy1iMWY5LTRmZjItOTc5NS03MTc2NGY4NmUzYmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiMSIsIm5iZiI6MTYxMjE0MTk1OCwiZXhwIjoxNjEyMTQ5MTU4LCJpc3MiOiJpc3N1ZXIiLCJhdWQiOiJhdWRpZW5jZSJ9.BHN-k6lf2ORX9yJBvwRo8lr9ci51hSgaZOjRwpYQw3U`,           
            }             
         })       
-        .then(res=>{
-           // console.log(res.data)
+        .then(res=>{          
             if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
                  this.dataTable = res.data[0].data
-                 this.singListS = this.dataTable
-                //  console.log(
-                //    this.dataTable.sort(
-                //      (a,b)=>a.M_Time>=b.M_Time? 1:-1));
+                 this.singListS = this.dataTable               
             }else{
               this.$message({
                 message: '查询数据失败',
@@ -213,8 +208,7 @@ export default {
               })
             }
         })
-        .catch(err=>{
-        //  console.log(err)
+        .catch(err=>{       
           this.$message({
                 message: '查询数据失败',
                 center: true
@@ -227,8 +221,7 @@ export default {
     handleCurrentChange(cpage){
       this.currpage = cpage
     },
-    handleSizeChange (psize) {
-      //console.log('==============' + psize)
+    handleSizeChange (psize) { 
       this.pagesize = psize
     },
     //停止播放
