@@ -64,19 +64,26 @@ export default {
            })
       },
       SplitMusicSong(msg){
-        this.result=[]
-        this.musicList.lrc=msg.M_Words
-        this.musicList.src=msg.M_Address          
-        this.musicList.artist=msg.M_Author
-        this.musicList.title=msg.M_Name
-        this.musicList.pic=msg.M_Img 
-        if(msg==undefined||msg.lrc==''  ||msg.M_Words==''      
+        this.result=[] 
+        if(msg==undefined){
+          this.$message.error('暂无歌词');
+        }
+       else if(msg.lrc==''  ||msg.M_Words==''      
           ||this.musicList.lrc==null){
             this.$message.error('暂无歌词');
+            this.musicList.lrc=msg.M_Words  
+            this.musicList.src=msg.M_Address          
+            this.musicList.artist=msg.M_Author
+            this.musicList.title=msg.M_Name
+            this.musicList.pic=msg.M_Img 
         }
         else{   
-          console.log(msg);       
-       
+          console.log(msg); 
+          this.musicList.lrc=msg.M_Words  
+          this.musicList.src=msg.M_Address          
+          this.musicList.artist=msg.M_Author
+          this.musicList.title=msg.M_Name
+          this.musicList.pic=msg.M_Img 
           let lyricArr = this.musicList.lrc.split('\n'); //按行分割歌词
           console.log(lyricArr)
          //遍历分割后的歌词数组，将格式化后的时间节点，

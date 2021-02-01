@@ -2,14 +2,17 @@
   <div class="play">
     <aplayer 
         autoplay 
+        :float="float"
         :music="musicList" 
         :list="musicList_"
-        shuffle="shuffle"
+        :shuffle="shuffle"
         mode="circulation"        
         :listFolded="listFolded"
         :showlrc="false"
         :mutex="mutex"
-        v-if="flag"         
+        :repeat="repeat[0]"
+        v-if="flag"   
+        listMaxHeight='100'      
         @playing="Onplaying" 
         @pause="OnStopPlay"     
         ref="player"> 
@@ -29,10 +32,12 @@ export default {
   },
   data() {
     return {
-      mutex:true,
+      float:true,//是否可以拖动播放器
+      mutex:true,//播放是是否暂停其他播放器
       listFolded:true,
-      repeat:['repeat-one','repeat-all','no-repeat'],//轮播模式。值可以是’repeat-one’（单曲循环）‘repeat-all’（循环列表）或者’no-repeat’（不循环）。
+      repeat:['repeat-all','repeat-one','no-repeat'],//轮播模式。值可以是’repeat-one’（单曲循环）‘repeat-all’（循环列表）或者’no-repeat’（不循环）。
       flag: false,
+      shuffle:true,//随机播放
       loopMode: "all",
       foat: true, //知否浮窗
       musicList_:[],        
@@ -137,6 +142,16 @@ export default {
       this.musicList.title = "千年缘";
       this.musicList.lrc='';
        this.musicList_=[this.musicList,...this.musicList_]
+
+
+        var play=$('.play .aplayer')
+        console.log(play)
+         let $li=`<div class="btn-left-right">
+         <el-button class="btn-left" icon="el-icon-caret-left" circle></el-button>
+         <el-button class="btn-right" icon="el-icon-caret-right" circle></el-button>
+         </div>`
+        play.append($li);
+       
     },
   },
 };

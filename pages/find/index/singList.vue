@@ -194,7 +194,7 @@ export default {
           params:{typeName:this.TypeName},
           //dataType: "json",  
             headers: { 
-             authorization: 'Bearer ' + `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzNjE2NjBhMy1iMWY5LTRmZjItOTc5NS03MTc2NGY4NmUzYmUiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiMSIsIm5iZiI6MTYxMjE0MTk1OCwiZXhwIjoxNjEyMTQ5MTU4LCJpc3MiOiJpc3N1ZXIiLCJhdWQiOiJhdWRpZW5jZSJ9.BHN-k6lf2ORX9yJBvwRo8lr9ci51hSgaZOjRwpYQw3U`,           
+             authorization: 'Bearer ' + `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmZDIzN2RlNS0yOTk0LTRmZDgtYjEwNC00M2Y2YWQzMTcxM2QiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiMTIiLCJuYmYiOjE2MTIxNTc5ODIsImV4cCI6MTYxMjE2NTE4MiwiaXNzIjoiaXNzdWVyIiwiYXVkIjoiYXVkaWVuY2UifQ.sVrHzWVnDFZ4jV0Dk6jj6lgaaEa8ArsFW9TNEO-AepQ`,           
            }             
         })       
         .then(res=>{          
