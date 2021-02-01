@@ -42,8 +42,8 @@ export default {
       dialogVisible:false,
       activeName:'first'
     }
-  },
-  methods:{
+  }, 
+  methods:{  
     //获取播放是歌曲
     parentFn(music){
       console.log(music);

@@ -50,48 +50,76 @@ export default {
         lineHeight : -30, // 每次滚动的距离
       }
     },   
-    mounted(){     
-       this.MusicDetail()
+    mounted(){   
       this.SplitMusicSong(this.$route.params.mu)
+      this.MusicDetail()
     },
-  
+   
     methods:{      
       MusicDetail(){   
           var that=this    
-           vmson.$on("MusicDetail",(detail)=>{ 
-               console.log(detail);           
-              that.SplitMusicSong(detail)
+           vmson.$on("MusicDetail",(detail)=>{                   
+             // that.SplitMusicSong(detail)
+             that.musSong(detail)
            })
       },
-      SplitMusicSong(msg){
-        this.result=[] 
-        if(msg==undefined){
-          this.$message.error('暂无歌词');
-        }
-       else if(msg.lrc==''  ||msg.M_Words==''      
-          ||this.musicList.lrc==null){
-            this.$message.error('暂无歌词');
-            this.musicList.lrc=msg.M_Words  
-            this.musicList.src=msg.M_Address          
-            this.musicList.artist=msg.M_Author
-            this.musicList.title=msg.M_Name
-            this.musicList.pic=msg.M_Img 
-        }
-        else{   
-          console.log(msg); 
+      musSong(msg){      
+        if(msg.lrc=='')
+          this.$message.error('暂无歌词'); 
+        else{        
           this.musicList.lrc=msg.M_Words  
           this.musicList.src=msg.M_Address          
           this.musicList.artist=msg.M_Author
           this.musicList.title=msg.M_Name
           this.musicList.pic=msg.M_Img 
-          let lyricArr = this.musicList.lrc.split('\n'); //按行分割歌词
-          console.log(lyricArr)
+          this.reshultMethos()
+          this.audioMethods()   
+        }
+      },
+      SplitMusicSong(msg){ 
+       
+        if(msg==undefined||msg.lrc==''  ||msg.M_Words==''      
+          ||this.musicList.lrc==null){
+            this.$message.error('暂无歌词');         
+        }
+        else{ 
+          this.musicList.lrc=msg.M_Words  
+          this.musicList.src=msg.M_Address          
+          this.musicList.artist=msg.M_Author
+          this.musicList.title=msg.M_Name
+          this.musicList.pic=msg.M_Img 
+           console.log(this.musicList.lrc)  
+          this.reshultMethos()
+          this.audioMethods()       
+        }       
+      },
+      audioMethods(){
+          let audio = document.querySelector('audio');
+          let that=this
+          audio.addEventListener("timeupdate",function(){                     
+            if (that.lineNo == that.result.length) return;
+            if ($("#music_Song ul li").eq(0).hasClass("active")) {
+              $("#music_Song ul").css("top", "0");
+            }           
+            that.lineNo =that.getLineNo(audio.currentTime);
+            that.highLight();
+            that.lineNo++;       
+          })
+          audio.addEventListener("ended", function() {         
+            that.lineNo = 0;
+            that.highLight();
+            audio.play();         
+            $("#music_Song ul").css("top", "0");
+        });   
+      },
+      reshultMethos(){
          //遍历分割后的歌词数组，将格式化后的时间节点，
-         //歌词填充到result数组         
+         //歌词填充到result数组 
+        //  this.result=[]    
+          let lyricArr = this.musicList.lrc.split('\n'); //按行分割歌词        
           for (let i = 0; i < lyricArr.length; i++) {
             let playTimeArr = lyricArr[i].match(/\[\d{2}:\d{2}((\.|\:)\d{2,3})\]/g); //正则匹配播放时间
-            let lineLyric = "";
-            console.log(playTimeArr)
+            let lineLyric = "";          
             if (lyricArr[i].split(playTimeArr).length > 0) {
               lineLyric = lyricArr[i].split(playTimeArr);
             }
@@ -111,27 +139,6 @@ export default {
               if(e.content.trim()=='')
                 this.result.splice($.inArray(e,this.result),1)
           })   
-          let audio = document.querySelector('audio');
-          let that=this
-
-
-          audio.addEventListener("timeupdate",function(){                     
-            if (that.lineNo == that.result.length) return;
-            if ($("#music_Song ul li").eq(0).hasClass("active")) {
-              $("#music_Song ul").css("top", "0");
-            }           
-            that.lineNo =that.getLineNo(audio.currentTime);
-            that.highLight();
-            that.lineNo++;       
-          })
-
-          audio.addEventListener("ended", function() {         
-            that.lineNo = 0;
-            that.highLight();
-            audio.play();         
-            $("#music_Song ul").css("top", "0");
-        });   
-      }       
       },
       getLineNo(currentTime){
         let that=this

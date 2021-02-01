@@ -1,6 +1,6 @@
 <template>
   <div class="play">
-    <aplayer 
+    <aplayer  class="playM"
         autoplay 
         :float="float"
         :music="musicList" 
@@ -52,11 +52,11 @@ export default {
     //  textList:[]
     };
   },  
-   mounted() {//async
-    this.MusicMethods()    
+  async mounted() {//async   
     this.init();
     // let aplayer = this.$refs.player.control;
     // aplayer.play();
+     this.MusicMethods()    
   },
   watch:{
     immediate: true,
@@ -94,15 +94,13 @@ export default {
       this.musicList_=[...this.musicList_,...this.list]  
     },
     //播放当前歌曲
-    playMusicIng(msg){       
-
+    playMusicIng(msg){  
       const L=JSON.parse(JSON.stringify(this.musicList_));       
       this.musicList.artist=msg.M_Author
       this.musicList.pic =msg.M_Img
       this.musicList.src=msg.M_Address      
-      this.musicList.title=msg.M_Name  
-      console.log('sssssssssssssssssss')
-        console.log(msg)
+      this.musicList.title=msg.M_Name
+      console.log(msg)
       $("audio").attr('src',msg.M_Address)  
       this.musicList_=[this.musicList,...L] 
       this.$router.push({ name: 'playMusic', 
@@ -119,6 +117,7 @@ export default {
         mm.M_Img=this.$refs.player.currentMusic.pic     
       //  this.$router.push({ name: 'playMusic', 
       //       params:{mu:mm}})  
+     //  console.log(this.musicList_)
        vmson.$emit('MusicDetail',mm)
       
        this.$refs.player.play()      
@@ -142,16 +141,6 @@ export default {
       this.musicList.title = "千年缘";
       this.musicList.lrc='';
        this.musicList_=[this.musicList,...this.musicList_]
-
-
-        var play=$('.play .aplayer')
-        console.log(play)
-         let $li=`<div class="btn-left-right">
-         <el-button class="btn-left" icon="el-icon-caret-left" circle></el-button>
-         <el-button class="btn-right" icon="el-icon-caret-right" circle></el-button>
-         </div>`
-        play.append($li);
-       
     },
   },
 };

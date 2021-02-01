@@ -71,7 +71,7 @@ export default {
       this.$emit("func", "second");
     },
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+     // console.log(key, keyPath);
     },
     getMusicSubnav() {
       this.$axios({
@@ -82,7 +82,7 @@ export default {
         if (res.data[0].code === "200" && res.data[0].msg === "OK") {
           this.SubnavList = res.data[0].data;
           this.activeIndex = "find";
-          console.log(this.SubnavList);
+          //console.log(this.SubnavList);
         }
       });
     },

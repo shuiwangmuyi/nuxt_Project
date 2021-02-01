@@ -42,7 +42,7 @@ export default {
     this.GetNameId(10004)    
  },
  mounted(){
-     console.log(this.activeName)
+     //console.log(this.activeName)
      this.GetMusicSingerId("a");
  },
  filters:{
@@ -73,7 +73,7 @@ export default {
                 this.$set(this.SingerLists,
                         this.SingerLists.length,
                         {"SingerClass":"热门"})
-                console.log(this.SingerLists)
+                //console.log(this.SingerLists)
            }              
         }) 
      },
