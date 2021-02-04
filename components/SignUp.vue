@@ -72,40 +72,60 @@
 </template>
 
 <script>
+import emp from '~/store/emptyVue'
     export default {
       data(){
-        var checkEmail = (rule, value, callback) => {
-           if (value === '') {
-                callback(new Error('请输入邮箱'))                                      
+        var checkEmail = (rule, value, callback) => {   
+          if (value === '') {
+               callback(new Error('请输入邮箱'))                                      
             } else {
+              var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+              if(reg.test(value))
                 callback()
+              else
+                callback(new Error('请输入正确的邮箱格式：***@.com')) 
             }
         }
         var checkPass=(rule, value, callback)=>{
-            if (value === '') {
+            var reg = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+           if(this.user.userEmail!=='')        
+           {            
+            if(reg.test(this.user.userEmail)) 
+            {
+              if (value === '') {
                 callback(new Error('请输入密码'));
-            }else{
-                if (this.user.pass !== '') {
-                    this.$refs.ruleForm.validateField('checkPass');
+              }
+              else{
+                if (this.user.pass !=='') {
+                  this.$refs.user.validateField('checkPass');
                 }
                 callback();
+              }
             }
+           }
         }
         var checkcimpass=(rule, value, callback)=>{
-            if (value === '') {
+           if(this.user.pass !==''
+            &&this.user.userEmail!=''){
+               if (value === '') {
                 callback(new Error('请再次输入密码'));
-            }else if(value!== this.user.pass){
-                 callback(new Error('两次输入密码不一致!'));
-            }else {
-                callback();
-            }
+              }else if(value!== this.user.pass){
+                  callback(new Error('两次输入密码不一致!'));
+              }else {
+                  callback();
+              }
+            }          
         }
         var checkCode=(rule, value, callback)=>{
-            if (value === '') {
+           if(this.user.pass !==''
+            &&this.user.userEmail!=''
+            &&this.user.cimpass!=''){
+              if (value === '') {
                 callback(new Error('请输入验证码'))
-            } else {
-                callback()
-            }
+              } else {
+                  callback()
+              }
+           }
         }
         return{
             labelPosition: 'right',
@@ -115,7 +135,7 @@
                 cimpass:'',
                 code:''
             },
-            src:'https://localhost:5001/Login/GetImageCode',                
+            src:'https://localhost:5001/Login/GetImageCode'+Math.ceil(Math.random()*10),                
             color1: '#409EFF',
             loading: false,
             rules: {
@@ -126,25 +146,57 @@
             }
         }
       },
+      mounted(){
+         emp.$on("SignUp",activeName=>{
+            console.log(activeName)
+            this.changeImgCode()        
+        })
+      },
       methods:{
           //获取图片验证码
-        changeImgCode(){          
+        changeImgCode(){
             this.$axios({
                 method: 'get',
                 url:'https://localhost:5001/Login/GetImageCode',
                 dataType: "json"
             }).then(res => { 
-               var num= Math.ceil(Math.random()*10);
-                console.log(res)
+               var num= Math.ceil(Math.random()*10);          
                 this.src=res.config.url+`?`+num
             })
         },
         //提交表格
-        submitForm (formName) {                
+        submitForm (formName) {
             this.$refs[formName].validate(valid => {
                 if (valid) {
-                    console.log(valid)
-                    return true
+                  this.$axios({
+                    method: 'post'
+                    ,url:'https://localhost:5001/Login/userResgister'
+                   ,params:{
+                      email:this.user.userEmail,
+                      userPass:this.user.pass,
+                      code:this.user.code
+                     }
+                  })
+                  .then(data=>{
+                      console.log(data.data)
+                      console.log(data.data[0].msg)
+                      if(data.data[0].msg!='OK'){
+                          this.$message({
+                                message: '账号已存在',
+                                center: true
+                             })
+                      }
+                      else{
+                        this.$message({
+                          message: '注册成功',
+                          center: true
+                        })
+                      }
+                  })
+                  .catch(err=>{
+                      console.log(err)
+                  })
+                  return true
                 }else {                         
                 // 没有输入数据进入===> valid 为false
                 return false
@@ -154,10 +206,7 @@
         resetForm (formName) {
             this.loading = false
             this.$refs[formName].resetFields()
-        },
-        handleClick(tab, event){
-
-        }
+        },       
       }
     }
 </script>

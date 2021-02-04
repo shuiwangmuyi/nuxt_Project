@@ -76,19 +76,17 @@ export default {
           this.audioMethods()   
         }
       },
-      SplitMusicSong(msg){ 
-       
+      SplitMusicSong(msg){        
         if(msg==undefined||msg.lrc==''  ||msg.M_Words==''      
           ||this.musicList.lrc==null){
             this.$message.error('暂无歌词');         
         }
-        else{ 
+        else{        
           this.musicList.lrc=msg.M_Words  
           this.musicList.src=msg.M_Address          
           this.musicList.artist=msg.M_Author
           this.musicList.title=msg.M_Name
-          this.musicList.pic=msg.M_Img 
-           console.log(this.musicList.lrc)  
+          this.musicList.pic=msg.M_Img   
           this.reshultMethos()
           this.audioMethods()       
         }       
@@ -114,8 +112,7 @@ export default {
       },
       reshultMethos(){
          //遍历分割后的歌词数组，将格式化后的时间节点，
-         //歌词填充到result数组 
-        //  this.result=[]    
+         //歌词填充到result数组         
           let lyricArr = this.musicList.lrc.split('\n'); //按行分割歌词        
           for (let i = 0; i < lyricArr.length; i++) {
             let playTimeArr = lyricArr[i].match(/\[\d{2}:\d{2}((\.|\:)\d{2,3})\]/g); //正则匹配播放时间

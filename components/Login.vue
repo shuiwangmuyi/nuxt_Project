@@ -13,11 +13,11 @@
                     :rules="rules"                   
                     ref="user">                    
                     <el-form-item 
-                        prop="userAccout" 
+                        prop="userAccount" 
                         label="账号">
                         <el-input 
                             type="text"
-                            v-model="user.userAccout"
+                            v-model="user.userAccount"
                             autocomplete="off"
                             prefix-icon="el-icon-s-custom"
                             clearable>
@@ -27,7 +27,7 @@
                         <el-input
                             type="password"
                             prefix-icon="el-icon-s-goods"
-                            v-model="user.pass"
+                            v-model="user.userPass"
                             autocomplete="off"
                             show-password>
                         </el-input>
@@ -77,10 +77,11 @@
     </el-tabs>  
 </template>
 <script>
-import re from '../components/SignUp' 
+import signUp from '../components/SignUp' 
+import emp from '~/store/emptyVue'
 export default {     
     components:{
-        SignUp:re,
+        SignUp:signUp,
     },
     data () {
         var checkAccout = (rule, value, callback) => {
@@ -91,7 +92,7 @@ export default {
             }
         }
         var checkPass = (rule, value, callback) => {
-            if(this.user.userAccout!==''){
+            if(this.user.userAccount!==''){
                 if (value === '') {
                 callback(new Error('请输入密码'))
                 } else {
@@ -100,62 +101,101 @@ export default {
             }           
         }
         var checkCode=(rule,value,callback)=>{
-            if(this.user.userAccout!==''
-            ||this.user.pass!==''){
+            if(this.user.userAccount!==''
+            ||this.user.userPass!==''){//this.user.pass!==''){
                 if (value === '') {
                 callback(new Error('请输入验证码'))
                 } else {
                     callback()
                 }
-            }   
-            
-            
+            } 
         }
         return {
             activeName:'first',
             labelPosition: 'right',
             user: {
-                userAccout: '',
-                pass: '',
+                userAccount: '',
+                //pass: '',
+                userPass:'',
                 code:''
             },
-            src:'https://localhost:5001/Login/GetImageCode?3',                
+            src:'https://localhost:5001/Login/GetImageCode?'+Math.ceil(Math.random()*10),                
             color1: '#409EFF',
             loading: false,                    
             rules: {
-                userAccout: [{ validator: checkAccout, trigger: 'blur' }],
-                pass: [{ validator: checkPass, trigger: 'blur' }],
+                userAccount: [{ validator: checkAccout, trigger: 'blur' }],
+              //  pass: [{ validator: checkPass, trigger: 'blur' }],
+                userPass: [{ validator: checkPass, trigger: 'blur' }],
                 code:[{ validator: checkCode, trigger: 'blur' }]
             }
         }
     },
     mounted(){
+        emp.$on("UPorInMethods",activeName=>{
+            this.activeName=activeName     
+            if( this.activeName=='first')
+               this.changeImgCode()
+            else     
+              emp.$emit('SignUp',this.activeName)   
+        })
        // this.changeImgCode();
     },
     methods:{
         //获取图片验证码
         changeImgCode(){          
-            this.$axios({
+           this.$axios({
                 method: 'get',
                 url:'https://localhost:5001/Login/GetImageCode',
                 dataType: "json"
               }).then(res => { 
-               var num= Math.ceil(Math.random()*10);
-                console.log(res)
-                this.src=res.config.url+`?`+num
-              })
-           },
-        submitForm (formName) { 
-           // that.$store.commit("saveToken", "");//清掉 token               
+           var num= Math.ceil(Math.random()*10);
+        //    console.log(res)
+           this.src=res.config.url+`?`+num
+           })
+        },
+        submitForm (formName) {
             this.$refs[formName].validate(valid => {
-                if (valid) {
-                    console.log("11111")
-                     var token = "Bearer aaaaaaaaaaaaaaaaaaaaaa";
-                   // that.$store.commit("saveToken", token);
-                   return true
+                if (valid) { 
+                    let token=window.sessionStorage.getItem('tosken')
+                    if(token!=''
+                        ||token==null||
+                        token==undefined
+                        ||token=='undefined')
+                    {
+                        this.$axios({
+                           method: 'post'
+                          ,url:'https://localhost:5001/Controllers/Login'
+                          ,params:this.user
+                         })
+                        .then(res=>{ 
+                            console.log(res)                                            
+                            if(res.data[0].msg=='OK'){                              
+                             token=res.data[0].data[0].token                      
+                             window.sessionStorage.setItem('tosken', token) //window.localStorage.setItem('token', token)
+                             window.sessionStorage.setItem('User', res.data[0].data[0].U_Name) 
+                             window.sessionStorage.setItem('ICO', res.data[0].data[0].U_ICO) 
+                             this.$message({
+                                message: '登录成功',
+                                center: true
+                             })
+                              console.log(window.sessionStorage.getItem('tosken'));
+                              emp.$emit('UserICOShow',true,res.data[0].data[0].U_ICO,res.data[0].data[0].U_Name);
+                              emp.$emit('Login',false)  
+                              this.$router.push({ name: 'find'})    
+                            }
+                            else{
+                                console.log(window.sessionStorage.getItem('tosken'));
+                                this.$message({
+                                    message: '账号或密码错误',
+                                    center: true
+                                })
+                            }
+                        })           
+                    }       
+                     return true
                 }else {                         
-                // 没有输入数据进入===> valid 为false
-                return false
+                 // 没有输入数据进入===> valid 为false
+                  return false
                 }
             })                
         },
@@ -164,7 +204,12 @@ export default {
             this.$refs[formName].resetFields()
         },
         handleClick(tab, event){
-
+            if(tab.name=='first'){               
+                this.changeImgCode()
+            }
+            else{                
+                emp.$emit('SignUp',this.activeName)
+            } 
         }
 
     }

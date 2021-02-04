@@ -27,7 +27,7 @@
 </template>
 <script>
 import { header, aside, footer,login } from "~/components";
-
+import emp from '~/store/emptyVue'
 export default {
   name: "App",
   components: {
@@ -43,6 +43,11 @@ export default {
       activeName:'first'
     }
   }, 
+  mounted(){
+    emp.$on("Login",re=>{
+      this.dialogVisible=re
+    })
+  },
   methods:{  
     //获取播放是歌曲
     parentFn(music){
@@ -51,9 +56,12 @@ export default {
     getMsgFormconn(data){
       // console.log(data+"sssssssssssss")  
       this.activeName=data  
-      this.dialogVisible=true
-      console.log(this.dialogVisible)
+      //this.dialogVisible=true
+      this.dialogVisible=!this.dialogVisible
+      //console.log(this.dialogVisible)        
+       emp.$emit('UPorInMethods',this.activeName)
     },
+
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(_ => {

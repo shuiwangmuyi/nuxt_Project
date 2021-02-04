@@ -77,11 +77,10 @@ export default {
          if(res.data[0].code==='200'&&res.data[0].msg==="OK"){
              this.musicTypeList=  res.data[0].data  
              this.activeName=res.data[0].data[0].TypeName        
-         }
-              
+         }              
         })    
       },
-    handleClick(tab, event) {
+     handleClick(tab, event) {          
       }
   }
 };

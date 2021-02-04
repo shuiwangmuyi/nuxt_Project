@@ -20,10 +20,31 @@
           </el-input>
         </div>
         <!-- 右边登录等 -->
-        <div class="header-right">
+        <div class="header-right" v-if="show==false">
           <div class="logo" @click="Sign_IN">登录</div>
           <div class="control" @click="Sign_Up">注册</div>
-          <div class="user" v-show="false">user</div>
+        </div>
+        <div v-else class="header-right">
+          <el-dropdown trigger="click">
+            <span class="el-dropdown-link">
+              <el-avatar :src="userICO"></el-avatar>               
+              <i class="el-icon-caret-bottom el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown" id="">
+              <el-dropdown-item class="clearfix" @click.native="SelectInfo">
+                个人信息
+                <el-badge v-if="show1==true" class="mark" value="完善信息"/>
+              </el-dropdown-item>
+              <el-dropdown-item class="clearfix" @click.native="changePassword">
+                修改密码
+                <el-badge class="mark" />
+              </el-dropdown-item>
+              <el-dropdown-item class="clearfix" @click.native="logoutFn">
+                退出
+              <el-badge class="mark"/>
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
         </div>
       </div>
     </div>
@@ -48,26 +69,80 @@
 </template>
 
 <script>
+import emp from '~/store/emptyVue'
 export default {
   data() {
     return {
-      activeIndex: "find",
-      // imgpath:require('../../assets/img/logo.jpg'),
+      activeIndex: "find",     
       imgpath: require("../assets/img/ICOImg/kongbudianyingkulou.png"),
-      //imgpath:require('../static/ICOImg/kongbudianyingkulou.png'),
       SubnavList: [],
       searchText: "",
+      show:false,
+      show1:true,
+      userName:'',
+      userICO:''
     };
   },
 
   mounted() {
-    this.getMusicSubnav();
+     this.GetToken();
+     this.getMusicSubnav();
+     emp.$on('UserICOShow',(show,userICO,userName)=>{
+        //请求后台，判断信息是否完整
+        this.GetUserInfo(show,userICO,userName)
+        this.show=show
+        this.userName=userName
+        this.userICO=userICO
+     })
   },
   methods: {
-    Sign_IN() {
-      this.$emit("func", "first");
+    GetUserInfo(){
+      var that=this
+        that.$axios({
+           method: 'post',
+           url:'https://localhost:5001/Login/SeleUserInfo'                    
+        })
+        .then(res=>{
+          if(res.data[0].status==='200'
+            &&res.data[0].msg==="OK"
+            &&res.data[0].message!=='false'){
+              that.show1=false                 
+          }             
+          else
+            this.show1=true
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+        
     },
-    Sign_Up() {
+    GetToken(){
+      if(window.sessionStorage.getItem('tosken')!=null)
+      {
+          this.show=true
+          this.GetUserInfo()
+          this.userName=window.sessionStorage.getItem('User')
+          this.userICO=window.sessionStorage.getItem('ICO')
+      }
+    },
+    logoutFn(){
+      console.log('退出');
+      window.sessionStorage.setItem('tosken',null)
+      this.show=false  
+      console.log(this.show+"ssssssssssssssss")    
+      this.$router.push({ name: 'find'}) 
+              
+    },
+    changePassword(){
+      console.log('修改密码');
+    },  
+    SelectInfo(){
+      console.log('查询个人信息');
+    },
+    Sign_IN() {//登录
+      this.$emit("func", "first");     
+    },
+    Sign_Up() {//注册
       this.$emit("func", "second");
     },
     handleSelect(key, keyPath) {
@@ -171,5 +246,8 @@ export default {
     }
   }
 }
-
+.el-avatar{
+  width: 60px;
+  height: 60px;
+}
 </style>

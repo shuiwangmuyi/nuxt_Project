@@ -9,8 +9,7 @@
         mode="circulation"        
         :listFolded="listFolded"
         :showlrc="false"
-        :mutex="mutex"
-        :repeat="repeat[0]"
+        :mutex="mutex"       
         v-if="flag"   
         listMaxHeight='100'      
         @playing="Onplaying" 
@@ -100,7 +99,6 @@ export default {
       this.musicList.pic =msg.M_Img
       this.musicList.src=msg.M_Address      
       this.musicList.title=msg.M_Name
-      console.log(msg)
       $("audio").attr('src',msg.M_Address)  
       this.musicList_=[this.musicList,...L] 
       this.$router.push({ name: 'playMusic', 
@@ -115,12 +113,9 @@ export default {
         mm.M_Author=this.$refs.player.currentMusic.artist
         mm.M_Name=this.$refs.player.currentMusic.title
         mm.M_Img=this.$refs.player.currentMusic.pic     
-      //  this.$router.push({ name: 'playMusic', 
-      //       params:{mu:mm}})  
-     //  console.log(this.musicList_)
        vmson.$emit('MusicDetail',mm)
       
-       this.$refs.player.play()      
+      //this.$refs.player.play()      
       // this.$emit('ParseFun',this.$refs.player.currentMusic);
     },
     //停止播放

@@ -194,7 +194,7 @@ export default {
           params:{typeName:this.TypeName},
           //dataType: "json",  
             headers: { 
-             authorization: 'Bearer ' + `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmZDIzN2RlNS0yOTk0LTRmZDgtYjEwNC00M2Y2YWQzMTcxM2QiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiMTIiLCJuYmYiOjE2MTIxNTc5ODIsImV4cCI6MTYxMjE2NTE4MiwiaXNzIjoiaXNzdWVyIiwiYXVkIjoiYXVkaWVuY2UifQ.sVrHzWVnDFZ4jV0Dk6jj6lgaaEa8ArsFW9TNEO-AepQ`,           
+             authorization:window.sessionStorage.getItem('tosken')//'Bearer ' + `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4Njc1MGQzNy03NGJkLTQ2NzEtODkyYi1mMzMyYzFmNjM3MzgiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiODgiLCJuYmYiOjE2MTIxNzI0ODEsImV4cCI6MTYxMjE3OTY4MSwiaXNzIjoiaXNzdWVyIiwiYXVkIjoiYXVkaWVuY2UifQ.jtGUIsq5cNrFndJWq_Iwxe1l9lvh8y-gNOQ2bQEt-BY`,           
            }             
         })       
         .then(res=>{          
@@ -216,16 +216,16 @@ export default {
         })  
     } ,
     getToken(){
-      return 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJkZWNlZThiMy02MmJmLTQ5YzYtOWY3Mi1mZDMyMjljZjQ5OGIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiMTIzNCIsIm5iZiI6MTYwOTgzOTkyNCwiZXhwIjoxNjA5ODQ3MTI0LCJpc3MiOiJpc3N1ZXIiLCJhdWQiOiJhdWRpZW5jZSJ9.YG2YOMA7UXZ9Dgbs14HU-N0lwukUernwXVvcud8HQ5k'
+      return 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJmNmNkZjFmMi01NzFkLTRmM2QtYjI4Zi00OWU4Y2NhMDkxMTAiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiODgiLCJuYmYiOjE2MTIyMzU5MjQsImV4cCI6MTYxMjI0MzEyNCwiaXNzIjoiaXNzdWVyIiwiYXVkIjoiYXVkaWVuY2UifQ.vWOitSbPCrPCjmLlChxr4Yld8VV-zEySr2EFoCJoFEo'
     },
-    handleCurrentChange(cpage){
+    handleCurrentChange(cpage){     
       this.currpage = cpage
     },
-    handleSizeChange (psize) { 
+    handleSizeChange (psize) {
       this.pagesize = psize
     },
     //停止播放
-    StopMusic(index, row){
+    StopMusic(index, row){      
       vmson.$emit('MusicMethods',0,row[this.pagesize  *(this.currpage-1)+index])
     },
     //添加列表
