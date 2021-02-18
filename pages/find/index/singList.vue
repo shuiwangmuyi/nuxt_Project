@@ -183,10 +183,10 @@ export default {
           _seach.toLowerCase()))    
     },
     //搜索音乐    
-    GetMusicTypeNames(){        
+    GetMusicTypeNames(){
+      console.log(this.TypeName);
         if(this.TypeName==""||this.TypeName==null||this.TypeName==undefined)
-          this.TypeName="热门"           
-       //axios.defaults.headers.Authorization = this.getToken()
+          this.TypeName="热门"  
        this.$axios({
           method: 'post',
           // url:'https://localhost:5001/Music/GetMusicTypeName',
@@ -194,7 +194,7 @@ export default {
           params:{typeName:this.TypeName},
           //dataType: "json",  
             headers: { 
-             authorization:window.sessionStorage.getItem('tosken')//'Bearer ' + `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4Njc1MGQzNy03NGJkLTQ2NzEtODkyYi1mMzMyYzFmNjM3MzgiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW4iLCJjb2RlIjoiODgiLCJuYmYiOjE2MTIxNzI0ODEsImV4cCI6MTYxMjE3OTY4MSwiaXNzIjoiaXNzdWVyIiwiYXVkIjoiYXVkaWVuY2UifQ.jtGUIsq5cNrFndJWq_Iwxe1l9lvh8y-gNOQ2bQEt-BY`,           
+             authorization:window.sessionStorage.getItem('tosken')
            }             
         })       
         .then(res=>{          

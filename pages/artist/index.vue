@@ -78,7 +78,7 @@ export default {
         }) 
      },
 
-     GetMusicSingerId(SingerClass){      
+     GetMusicSingerId(SingerClass){
         this.$axios({
             method: 'post',
             url:'https://localhost:5001/MusicType/GetMusicSingerId',
@@ -91,7 +91,7 @@ export default {
             }              
         }) 
      },
-     handleClick(tab, event) {       
+     handleClick(tab, event) {
       //  console.log(tab);
         this.GetMusicSingerId(tab.name)
       }

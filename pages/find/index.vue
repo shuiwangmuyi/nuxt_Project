@@ -8,23 +8,15 @@
     </el-carousel> 
     <div class="discover-module">
       <el-tabs v-model="activeName" @tab-click="handleClick">
-              <el-tab-pane v-for="(musicList,index) in musicTypeList"
-                :key="index" 
-                :label="musicList.TypeName"
-                :name="musicList.TypeName">
-               <SingList  
-                  :GetTypeName="musicList.TypeName">
-                </SingList>     
-              
-              </el-tab-pane>
-      </el-tabs>
-        <!-- <el-menu  mode="horizontal" router>
-          <el-menu-item v-for="musicList in musicTypeList" 
-          :key="musicList.TypeId"
-          :index="musicList.TypePath">        
-            <span slot="title">{{musicList.TypeName}}</span>
-          </el-menu-item> 
-        </el-menu> -->
+        <el-tab-pane v-for="(musicList,index) in musicTypeList"
+          :key="index" 
+          :label="musicList.TypeName"
+          :name="musicList.TypeName">
+          <SingList>
+            <!-- :GetTypeName="musicList.TypeName"> -->
+          </SingList> 
+        </el-tab-pane>
+      </el-tabs>      
     </div>
   </div>
 </template>
@@ -35,7 +27,7 @@ export default {
   name: "find",
   components: {
     SingList:singList,
-    },
+  },
   data(){
     return{
       activeName:'',
@@ -60,7 +52,6 @@ export default {
         }
       ],
       musicTypeList:[{
-
       }]     
     }
   },
@@ -69,7 +60,7 @@ export default {
   },
   methods:{        
      getMusicType(){
-       this.$axios({
+      this.$axios({
         method: 'post',
         url:'https://localhost:5001/MusicType/GetMusicTypeData',
         dataType: "json"
@@ -79,9 +70,10 @@ export default {
              this.activeName=res.data[0].data[0].TypeName        
          }              
         })    
-      },
-     handleClick(tab, event) {          
-      }
+     },
+     handleClick(tab, event) { 
+      //  console.log(tab.name);         
+    }
   }
 };
 </script>

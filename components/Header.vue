@@ -128,16 +128,24 @@ export default {
     logoutFn(){
       console.log('退出');
       window.sessionStorage.setItem('tosken',null)
+      window.sessionStorage.setItem('User', null) 
+      window.sessionStorage.setItem('ICO',null) 
       this.show=false  
       console.log(this.show+"ssssssssssssssss")    
       this.$router.push({ name: 'find'}) 
               
     },
     changePassword(){
-      console.log('修改密码');
+      this.$router.push({ 
+        name: 'UserInfo',
+        params:{active:3} 
+      })
     },  
     SelectInfo(){
-      console.log('查询个人信息');
+      this.$router.push({ 
+        name: 'UserInfo',
+        params:{active:2} 
+      })
     },
     Sign_IN() {//登录
       this.$emit("func", "first");     

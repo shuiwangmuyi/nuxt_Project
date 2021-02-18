@@ -117,6 +117,8 @@ export default {
                 userAccount: '',
                 //pass: '',
                 userPass:'',
+                IP:'',
+                Address:'',
                 code:''
             },
             src:'https://localhost:5001/Login/GetImageCode?'+Math.ceil(Math.random()*10),                
@@ -140,6 +142,14 @@ export default {
         })
        // this.changeImgCode();
     },
+    async created (){
+       try {
+        let res = await this.GetIP()
+        this.user.IP=res       
+       } catch (err) {
+        console.log(err)//1902a62a6409d4d3ecdd26032724e7df
+      }
+    },
     methods:{
         //获取图片验证码
         changeImgCode(){          
@@ -153,7 +163,8 @@ export default {
            this.src=res.config.url+`?`+num
            })
         },
-        submitForm (formName) {
+        async submitForm (formName) {  
+            this.user.IP=await this.GetIP()    
             this.$refs[formName].validate(valid => {
                 if (valid) { 
                     let token=window.sessionStorage.getItem('tosken')
@@ -161,11 +172,11 @@ export default {
                         ||token==null||
                         token==undefined
                         ||token=='undefined')
-                    {
+                    {                          
                         this.$axios({
                            method: 'post'
                           ,url:'https://localhost:5001/Controllers/Login'
-                          ,params:this.user
+                          ,params:{...this.user}
                          })
                         .then(res=>{ 
                             console.log(res)                                            
@@ -191,6 +202,9 @@ export default {
                                 })
                             }
                         })           
+                        .catch(err=>{
+                            console.log(Ip);
+                        })
                     }       
                      return true
                 }else {                         
@@ -203,6 +217,18 @@ export default {
             this.loading = false
             this.$refs[formName].resetFields()
         },
+        GetIP(){
+            return new Promise((resolve, reject)=>{
+                this.$axios({
+                method: 'get',               
+                url:'https://v6r.ipip.net/?format=callback',                            
+                })
+                .then(res=>{
+                    console.log(res)
+                    resolve(res.data.split('\'')[1])  
+                 })
+            })            
+        },      
         handleClick(tab, event){
             if(tab.name=='first'){               
                 this.changeImgCode()
