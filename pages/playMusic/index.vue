@@ -77,7 +77,8 @@ export default {
         }
       },
       SplitMusicSong(msg){        
-        if(msg==undefined||msg.lrc==''  ||msg.M_Words==''      
+        if(msg==undefined||msg.lrc==''  
+        ||msg.M_Words=='' ||msg.M_Words==null     
           ||this.musicList.lrc==null){
             this.$message.error('暂无歌词');         
         }
