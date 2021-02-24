@@ -227,7 +227,7 @@ export default {
                 userAccount:'admin',
                 tel:'10000000000',
                 email:'100000000@qq.com',
-                name:'~~~~~',
+                name:'~~~~',
                 sex:'保密',
                 birthday:'1979-01-01',
                 code:''
