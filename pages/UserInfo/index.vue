@@ -3,15 +3,15 @@
         <div class="wing_side">
             <div class="kg_uc_avatar_area">
                 <div class="kg_uc_avatar_cover">
-                    <el-image :src="ICOmage" alt="想见你"></el-image>
+                    <el-image :src="ruleForm1.ICO" :alt="ruleForm1.name"></el-image>
                 </div>
                 <div class="kg_uc_avatar_txt">
-                    <p align="center">想见你</p>
-                    <p align="center">(帐号:admin)</p>
+                    <p align="center">{{ruleForm1.name}}</p>
+                    <p align="center">(帐号:{{ruleForm1.userAccount}})</p>
                 </div>
             </div>
         </div>
-        <el-tabs style="width:1200px" type="border-card" 
+        <el-tabs style="width:1175px" type="border-card" 
             v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="修改头像"
                  name="ICO">
@@ -67,7 +67,6 @@
                         <el-date-picker                            
                             type="date" 
                             placeholder="选择日期" 
-                            style="width: 100%;"
                             format="yyyy-MM-dd" 
                             value-format="yyyy-MM-dd"
                             v-model="ruleForm1.birthday"
@@ -322,11 +321,11 @@ export default {
                 ,method:'post'
             })
             .then(res=>{
-                // console.log(res)
-                if(res.data[0].msg==='OK')
+                console.log(res)
+                if(res.data.msg==='OK')
                 {
                     this.$message({
-                        message: '信息'+res.data[0].data,
+                        message: '信息'+res.data.data,
                         center: true
                     })
                 }
